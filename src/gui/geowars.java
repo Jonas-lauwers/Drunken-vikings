@@ -33,6 +33,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import javax.swing.JFrame;
 import org.dyn4j.collision.manifold.Manifold;
 import org.dyn4j.collision.narrowphase.Penetration;
@@ -59,6 +62,7 @@ public class geowars extends simulationPanel implements CollisionListener {
      * The serial version id
      */
     private static final long serialVersionUID = -313391186714427055L;
+    
 
     /**
      * Default constructor for the window
@@ -72,6 +76,8 @@ public class geowars extends simulationPanel implements CollisionListener {
         this.addMouseListener(mouse);
         this.addMouseMotionListener((MouseMotionListener) mouse);
         this.requestFocus();
+        
+        this.rand = new Random();
     }
 
     private Ship ship;
@@ -82,24 +88,26 @@ public class geowars extends simulationPanel implements CollisionListener {
     private boolean moveUp;
     private boolean moveDown;
     private boolean firing;
+    
+    private Random rand;
 
     // very very dirty :) refactor and delegate please :)
     @Override
     public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1) {
         boolean cont = true;
         if(body instanceof SimulationBody && body1 instanceof SimulationBody) {
-            SimulationBody b = (SimulationBody) body;
-            SimulationBody b1 = (SimulationBody) body1;
-            b.isHit();
-            b1.isHit();
-            if(b.isDead()) {
-                this.world.removeBody(b);
-                cont = false;
-            }
-            if(b1.isDead()) {
-                this.world.removeBody(b1);
-                cont = false;
-            }
+                SimulationBody b = (SimulationBody) body;
+                SimulationBody b1 = (SimulationBody) body1;
+                b.isHit();
+                b1.isHit();
+                if(b.isDead() && !b.getMass().isInfinite()) {
+                    this.world.removeBody(b);
+                    cont = false;
+                }
+                if(b1.isDead() && !b1.getMass().isInfinite()) {
+                    this.world.removeBody(b1);
+                    cont = false;
+                }
         }
         return false;
 
@@ -118,7 +126,7 @@ public class geowars extends simulationPanel implements CollisionListener {
 
     @Override
     public boolean collision(ContactConstraint cc) {
-        System.out.println("contactconstraint collision");
+        System.out.println("contactconstraint collision");    
         return true;
     }
 
@@ -222,6 +230,7 @@ public class geowars extends simulationPanel implements CollisionListener {
         enemy = new Enemy(5);
         this.world.addBody(enemy);
         this.world.addListener(this);
+        //this.world.setBounds(new AxisAlignedBounds(1024, 768));
     }
 
     /* (non-Javadoc)
@@ -242,21 +251,22 @@ public class geowars extends simulationPanel implements CollisionListener {
         if (moveDown) {
             ship.move(0,50);
         }
-        if (firing) {
+        if (firing && !ship.isDead()) {
             this.world.addBody(ship.shoot());
             firing = false;
         }
         ship.turnToAngle();
         
-       enemy.move(ship.getWorldCenter());
-        
-        if(ship.isInContact(enemy) && ship.isDead()) {
-            this.world.removeBody(ship);
-            this.world.removeBody(enemy);
+        if(!enemy.isDead()){
+            enemy.move(ship.getWorldCenter());
+            if(rand.nextInt(10) == 5) {
+                this.world.addBody(enemy.shoot());
+            }
         }
-        //check all bullets if they hit something or are out of the field
-
+        
         super.update(g, elapsedTime);
+       
+        System.out.println(this.world.getBodyCount());
     }
 
     /**

@@ -18,7 +18,14 @@ import org.dyn4j.geometry.Convex;
 public class SimulationBody extends Body {
 	/** The color of the object */
 	protected Color color;
+        
+        /** the filter categories to define what can collide with who **/
+        public static final int PLAYERCOLLIDE = 1;
+        public static final int ENEMYCOLLIDE = 2;
+        public static final int BULLETCOLLIDE = 4;
 	
+        
+        protected int shield = 0;
 	/**
 	 * Default constructor.
 	 */
@@ -37,6 +44,15 @@ public class SimulationBody extends Body {
 	public SimulationBody(Color color) {
 		this.color = color;
 	}
+           
+        public void isHit() {
+            shield--;
+            System.out.println(this.id + ": "+this.shield);
+        }
+
+        public boolean isDead() {
+            return shield <= 0;
+        }
 
 	/**
 	 * Draws the body.

@@ -83,37 +83,48 @@ public class geowars extends simulationPanel implements CollisionListener {
     private boolean moveDown;
     private boolean firing;
 
+    // very very dirty :) refactor and delegate please :)
     @Override
     public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1) {
-        this.world.removeBody(body1);
-        System.out.println("first");
-        return true;
-    }
+        boolean cont = true;
+        if(body instanceof SimulationBody && body1 instanceof SimulationBody) {
+            SimulationBody b = (SimulationBody) body;
+            SimulationBody b1 = (SimulationBody) body1;
+            b.isHit();
+            b1.isHit();
+            if(b.isDead()) {
+                this.world.removeBody(b);
+                cont = false;
+            }
+            if(b1.isDead()) {
+                this.world.removeBody(b1);
+                cont = false;
+            }
+        }
+        return false;
 
+    }
     @Override
     public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Penetration pntrtn) {
-        this.world.removeBody(body1);
-        System.out.println("second");
+        System.out.println("penetration collision");
         return true;
     }
 
     @Override
     public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Manifold mnfld) {
-        this.world.removeBody(body1);
-        System.out.println("third");
+        System.out.println("manifold collision");
         return true;
     }
 
     @Override
     public boolean collision(ContactConstraint cc) {
-        
-        System.out.println("last");
+        System.out.println("contactconstraint collision");
         return true;
     }
 
     private class CustomMouseListener extends MouseAdapter {
         @Override
-        public void mouseClicked(MouseEvent e) {
+        public void mousePressed(MouseEvent e) {
            firing = true;
         }
         
@@ -122,12 +133,10 @@ public class geowars extends simulationPanel implements CollisionListener {
            firing = false;
         }
         
-        //TODO this angle is based on the center of the screen ... 
-        //look how we can shift it to the object maybe.
         @Override
         public void mouseMoved(MouseEvent e) {
             Point p = e.getPoint();
-            ship.turnToAngle(p);
+            ship.turnToAngle(new Vector2(p.getX(),p.getY()));
         }
     }
     
@@ -210,7 +219,7 @@ public class geowars extends simulationPanel implements CollisionListener {
         
         ship = new Ship();
         this.world.addBody(ship);
-        enemy = new Enemy();
+        enemy = new Enemy(5);
         this.world.addBody(enemy);
         this.world.addListener(this);
     }

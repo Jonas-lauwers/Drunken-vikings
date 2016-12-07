@@ -5,6 +5,9 @@
  */
 package gui;
 
+import org.dyn4j.collision.CategoryFilter;
+import org.dyn4j.dynamics.BodyFixture;
+import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -14,30 +17,23 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Enemy extends SimulationBody {
 
-    private double xPos;
-    private double yPos;
     private double angle;
     private Vector2 direction;
 
-    public Enemy() {
-        this.addFixture(Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10)), 1.0, 1.0, 1.0);
+    public Enemy(int shield) {
+        Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
+        BodyFixture fixture = new BodyFixture(shape);
+        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE,PLAYERCOLLIDE|BULLETCOLLIDE));
+        this.addFixture(fixture);
         this.setMass(MassType.NORMAL);
         this.setLinearDamping(1);
         this.translateToOrigin();
         this.setGravityScale(10);
         this.translate(400,500);
         this.setAngularDamping(100.0);
-        Vector2 center = this.getWorldCenter();
-        this.xPos = center.x;
-        this.yPos = center.y;
         this.angle = 0;
         this.direction = new Vector2();
-    }
-    
-    private void updatePos() {
-        Vector2 center = this.getWorldCenter();
-        this.xPos = center.x;
-        this.yPos = center.y;
+        this.shield = shield;
     }
     
     public void move(Vector2 point) {
@@ -64,18 +60,13 @@ public class Enemy extends SimulationBody {
     }
     
     public void turnToAngle(Vector2 direction) {
-        double degree = (Math.atan2(-(this.yPos - direction.y), this.xPos - direction.x) - Math.PI/2);
+        double degree = (Math.atan2(-(this.getWorldCenter().x - direction.y), this.getWorldCenter().y - direction.x) - Math.PI/2);
         this.rotate(this.angle - degree , this.getWorldCenter());
         this.angle = degree;
         this.direction = direction;
-        updatePos();
     }
-
-    public double getxPos() {
-        return xPos;
-    }
-
-    public double getyPos() {
-        return yPos;
+    
+    public void shoot() {
+        //return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE);
     }
 }

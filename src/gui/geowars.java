@@ -33,17 +33,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
 import org.dyn4j.collision.manifold.Manifold;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
-import org.dyn4j.dynamics.CollisionListener;
+import org.dyn4j.dynamics.CollisionAdapter;
 import org.dyn4j.dynamics.contact.ContactConstraint;
-
 import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
@@ -56,7 +53,7 @@ import org.dyn4j.geometry.Vector2;
  * @since 3.2.1
  * @version 3.2.0
  */
-public class geowars extends simulationPanel implements CollisionListener {
+public class geowars extends simulationPanel {
 
     /**
      * The serial version id
@@ -65,24 +62,31 @@ public class geowars extends simulationPanel implements CollisionListener {
     
 
     /**
-     * Default constructor for the window
+     * Default constructor for the canvas
+     * Creates the base of a game
      */
     public geowars() {
+        //creates a simulation panel with a scale of 1
         super(1);
 
+        //add key and collisionListener
         KeyListener listener = new CustomKeyListener();
         this.addKeyListener(listener);
         MouseListener mouse = new CustomMouseListener();
         this.addMouseListener(mouse);
         this.addMouseMotionListener((MouseMotionListener) mouse);
+        this.world.addListener(new CustomCollisionListener());
         this.requestFocus();
         
+        //temp for testing enemy shooting
         this.rand = new Random();
     }
-
+    
+    //temp vars for ship and enemy for testing
     private Ship ship;
     private Enemy enemy;
 
+    //privates for controlling player action
     private boolean moveLeft;
     private boolean moveRight;
     private boolean moveUp;
@@ -90,44 +94,46 @@ public class geowars extends simulationPanel implements CollisionListener {
     private boolean firing;
     
     private Random rand;
+    
+    
+    private class CustomCollisionListener extends CollisionAdapter {
+        @Override
+        public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1) {
+            boolean cont = true;
+            if(body instanceof SimulationBody && body1 instanceof SimulationBody) {
+                    SimulationBody b = (SimulationBody) body;
+                    SimulationBody b1 = (SimulationBody) body1;
+                    b.isHit();
+                    b1.isHit();
+                    if(b.isDead() && !b.getMass().isInfinite()) {
+                        world.removeBody(b);
+                        cont = false;
+                    }
+                    if(b1.isDead() && !b1.getMass().isInfinite()) {
+                        world.removeBody(b1);
+                        cont = false;
+                    }
+            }
+            return false;
 
-    // very very dirty :) refactor and delegate please :)
-    @Override
-    public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1) {
-        boolean cont = true;
-        if(body instanceof SimulationBody && body1 instanceof SimulationBody) {
-                SimulationBody b = (SimulationBody) body;
-                SimulationBody b1 = (SimulationBody) body1;
-                b.isHit();
-                b1.isHit();
-                if(b.isDead() && !b.getMass().isInfinite()) {
-                    this.world.removeBody(b);
-                    cont = false;
-                }
-                if(b1.isDead() && !b1.getMass().isInfinite()) {
-                    this.world.removeBody(b1);
-                    cont = false;
-                }
         }
-        return false;
+        @Override
+        public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Penetration pntrtn) {
+            System.out.println("penetration collision");
+            return true;
+        }
 
-    }
-    @Override
-    public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Penetration pntrtn) {
-        System.out.println("penetration collision");
-        return true;
-    }
+        @Override
+        public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Manifold mnfld) {
+            System.out.println("manifold collision");
+            return true;
+        }
 
-    @Override
-    public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Manifold mnfld) {
-        System.out.println("manifold collision");
-        return true;
-    }
-
-    @Override
-    public boolean collision(ContactConstraint cc) {
-        System.out.println("contactconstraint collision");    
-        return true;
+        @Override
+        public boolean collision(ContactConstraint cc) {
+            System.out.println("contactconstraint collision");    
+            return true;
+        }    
     }
 
     private class CustomMouseListener extends MouseAdapter {
@@ -148,13 +154,6 @@ public class geowars extends simulationPanel implements CollisionListener {
         }
     }
     
-    /**
-     * Custom key adapter to listen for key events.
-     *
-     * @author William Bittle
-     * @version 3.2.1
-     * @since 3.2.0
-     */
     private class CustomKeyListener extends KeyAdapter {
 
         @Override
@@ -199,6 +198,7 @@ public class geowars extends simulationPanel implements CollisionListener {
      * Creates game objects and adds them to the world.
      */
     protected void initializeWorld() {
+        // set gravity to none :) welcome to space.
         this.world.setGravity(new Vector2(0, 0));
         // the floor
         SimulationBody floor = new SimulationBody();
@@ -229,8 +229,6 @@ public class geowars extends simulationPanel implements CollisionListener {
         this.world.addBody(ship);
         enemy = new Enemy(5);
         this.world.addBody(enemy);
-        this.world.addListener(this);
-        //this.world.setBounds(new AxisAlignedBounds(1024, 768));
     }
 
     /* (non-Javadoc)
@@ -238,7 +236,7 @@ public class geowars extends simulationPanel implements CollisionListener {
      */
     @Override
     protected void update(Graphics2D g, double elapsedTime) {
-        // apply a torque based on key input
+        // do player action based on key/mouse input
         if (moveLeft) {
             ship.move(-50,0);
         }

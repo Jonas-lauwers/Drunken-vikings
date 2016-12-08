@@ -14,6 +14,8 @@ import org.dyn4j.geometry.Convex;
  * @author William Bittle
  * @version 3.2.1
  * @since 3.0.0
+ * Has some extra functionality (isHit, isDead ....) will be replaced by a 
+ * full blown object that encapsulates all moving/living/shooting objects.
  */
 public class SimulationBody extends Body {
 	/** The color of the object */
@@ -47,7 +49,6 @@ public class SimulationBody extends Body {
            
         public void isHit() {
             shield--;
-            System.out.println(this.id + ": "+this.shield);
         }
 
         public boolean isDead() {

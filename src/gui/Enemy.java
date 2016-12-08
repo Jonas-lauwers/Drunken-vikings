@@ -14,6 +14,8 @@ import org.dyn4j.geometry.Vector2;
 /**
  *
  * @author Jonas Lauwers
+ * For comments see ship for now is pretty much the same except for the move function :)
+ * Looks like it can definitly be refactored :)
  */
 public class Enemy extends SimulationBody {
 

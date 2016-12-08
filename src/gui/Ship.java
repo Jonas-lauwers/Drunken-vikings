@@ -5,9 +5,7 @@
  */
 package gui;
 
-import java.awt.Point;
 import org.dyn4j.collision.CategoryFilter;
-import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
 import org.dyn4j.geometry.Geometry;
@@ -53,10 +51,19 @@ public class Ship extends SimulationBody {
         this.direction = new Vector2();
     }
     
+    /**
+     * Move the body in a linear line according the values of direction x and direction y
+     * @param x The speed value to move along the x axis
+     * @param y The speed value to move along the y axis
+     */
     public void move(double x, double y) {
         this.getLinearVelocity().add(x, y);
     }
     
+    /**
+     * Rotate the body around it's center to a certain point on the screen
+     * @param p The point where the body should turn to
+     */
     public void turnToAngle(Vector2 p) {
         double degree = (Math.atan2(-(this.getWorldCenter().y - p.y), this.getWorldCenter().x - p.x) - Math.PI/2);
         this.rotate(this.angle - degree , this.getWorldCenter());
@@ -64,10 +71,17 @@ public class Ship extends SimulationBody {
         this.direction = p;
     }
     
+    /**
+     * Rotate the body around it's center to the last given point.
+     */
     public void turnToAngle() {
         turnToAngle(direction);
     }
     
+    /**
+     * Make the ship shoot a bullet in the direction it's aiming
+     * @return The bullet
+     */
     public Bullet shoot() {
         return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE);
     }

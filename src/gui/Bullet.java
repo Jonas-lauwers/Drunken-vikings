@@ -9,6 +9,13 @@ import org.dyn4j.geometry.Vector2;
 
 public class Bullet extends SimulationBody {
 
+    /**
+     * Create a bullet on a location moving towards a direction and can collide
+     * with the given filter.
+     * @param location The location of spawning
+     * @param direction The direction it's moving in
+     * @param collideFilter The filter which tells what it can collide with
+     */
     public Bullet(Vector2 location, Vector2 direction, long collideFilter) {
         Convex shape = Geometry.createRectangle(4, 10);
         BodyFixture fixture = new BodyFixture(shape);

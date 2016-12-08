@@ -101,15 +101,24 @@ public class geowars extends simulationPanel {
 			if (body instanceof SimulationBody && body1 instanceof SimulationBody) {
 				SimulationBody b = (SimulationBody) body;
 				SimulationBody b1 = (SimulationBody) body1;
-				b.isHit();
-				b1.isHit();
+				b.isHit(b1);
+				b1.isHit(b);
 				if (b.isDead() && !b.getMass().isInfinite()) {
 					world.removeBody(b);
 					cont = false;
+                                        //if is enemy make it drop a gem
+                                        if(b instanceof Enemy) {
+                                            Enemy e = (Enemy) b;
+                                            world.addBody(e.dropGem());
+                                        }
 				}
 				if (b1.isDead() && !b1.getMass().isInfinite()) {
 					world.removeBody(b1);
 					cont = false;
+                                        if(b1 instanceof Enemy) {
+                                            Enemy e = (Enemy) b1;
+                                            world.addBody(e.dropGem());
+                                        }
 				}
 			}
 			return false;
@@ -259,19 +268,23 @@ public class geowars extends simulationPanel {
 		for (Enemy enemy : enemyList) {
 			if (!enemy.isDead()) {
 				enemy.move(ship.getWorldCenter());
-				if (rand.nextInt(10) == 5) {
-					//this.world.addBody(enemy.shoot());
+				if (rand.nextInt(50) == 5) {
+					this.world.addBody(enemy.shoot());
 				}
 			}
 		}
 		if(rand.nextInt(200)==1)
 		{
-			enemyList.add(new Enemy(3));
-			this.world.addBody(enemyList.get(enemyList.size()-1));
+                    //less reading in an array :)
+                    Enemy enemy = new Enemy(3,1);
+                    enemyList.add(enemy);
+                    this.world.addBody(enemy);
 		}
+                //stop simulation if player is dead.
+                if(ship.isDead()) {
+                    this.stop();
+                }
 		super.update(g, elapsedTime);
-
-		System.out.println(this.world.getBodyCount());
 	}
 
 	/**
@@ -282,6 +295,7 @@ public class geowars extends simulationPanel {
 	 */
 	public static void main(String[] args) {
 		JFrame temp = new JFrame("geowars");
+                temp.setResizable(false);
 		temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		geowars simulation = new geowars();
 		temp.add(simulation);

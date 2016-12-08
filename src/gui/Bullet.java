@@ -16,7 +16,7 @@ public class Bullet extends SimulationBody {
      * @param direction The direction it's moving in
      * @param collideFilter The filter which tells what it can collide with
      */
-    public Bullet(Vector2 location, Vector2 direction, long collideFilter) {
+    public Bullet(Vector2 location, Vector2 direction, long collideFilter, int damage) {
         Convex shape = Geometry.createRectangle(4, 10);
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(BULLETCOLLIDE, collideFilter));
@@ -33,6 +33,7 @@ public class Bullet extends SimulationBody {
 
         this.translate(location.x + x, location.y + y);
         this.setLinearVelocity(x * 5, y * 5);
+        this.damage = damage;
         
     }
 }

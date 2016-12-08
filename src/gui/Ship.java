@@ -25,7 +25,7 @@ public class Ship extends SimulationBody {
         // Create shape, fixture, body and add a collision filter to it
         Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE,ENEMYCOLLIDE|BULLETCOLLIDE));
+        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE,ENEMYCOLLIDE|BULLETCOLLIDE|GEMCOLLIDE));
         
         //aad fixture to body
         this.addFixture(fixture);
@@ -49,6 +49,8 @@ public class Ship extends SimulationBody {
         this.shield = 10;
         //set the direction were facing to 0
         this.direction = new Vector2();
+        //set default damage of ship
+        this.damage = 1;
     }
     
     /**
@@ -83,6 +85,6 @@ public class Ship extends SimulationBody {
      * @return The bullet
      */
     public Bullet shoot() {
-        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE);
+        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE|GEMCOLLIDE, damage);
     }
 }

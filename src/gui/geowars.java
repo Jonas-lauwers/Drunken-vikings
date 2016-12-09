@@ -264,6 +264,7 @@ public class geowars extends simulationPanel {
 			firing = false;
 		}
 		ship.turnToAngle();
+                
 
 		for (Enemy enemy : enemyList) {
 			if (!enemy.isDead()) {

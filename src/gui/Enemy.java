@@ -71,11 +71,11 @@ public class Enemy extends SimulationBody {
         this.applyImpulse(new Vector2(impulsex,impulsey), point);
     }
     
-    public void turnToAngle(Vector2 direction) {
-        double degree = (Math.atan2(-(this.getWorldCenter().x - direction.y), this.getWorldCenter().y - direction.x) - Math.PI/2);
+    public void turnToAngle(Vector2 p) {
+        double degree = (Math.atan2(-(this.getWorldCenter().y - p.y), this.getWorldCenter().x - p.x) - Math.PI/2);
         this.rotate(this.angle - degree , this.getWorldCenter());
         this.angle = degree;
-        this.direction = direction;
+        this.direction = p;
     }
     
     public Bullet shoot() {

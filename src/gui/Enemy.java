@@ -48,6 +48,7 @@ public class Enemy extends SimulationBody {
         
         this.shield = shield;
         this.damage = damage;
+        this.scorePoints = 10;
     }
     
     public void move(Vector2 point) {
@@ -83,6 +84,8 @@ public class Enemy extends SimulationBody {
     }
     
     // create and return gem to drop can only collide with player and player bullets
+    // when making this class override isHit(SimBody) so it does the super function 
+    // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
         Convex shape = Geometry.createCircle(5);
         BodyFixture fixture = new BodyFixture(shape);
@@ -92,6 +95,7 @@ public class Enemy extends SimulationBody {
         gem.setMass(MassType.FIXED_LINEAR_VELOCITY);
         gem.translateToOrigin();      
         gem.translate(this.getWorldCenter());
+        gem.expPoints = 5;
         return gem;
     }
 }

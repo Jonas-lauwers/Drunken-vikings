@@ -26,7 +26,7 @@ public class Enemy extends SimulationBody {
 
         Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE));
+        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
 
         this.addFixture(fixture);
 
@@ -78,7 +78,7 @@ public class Enemy extends SimulationBody {
     }
 
     public Bullet shoot() {
-        return new Bullet(this.getWorldCenter(), direction, PLAYERCOLLIDE, damage);
+        return new Bullet(this.getWorldCenter(), direction, PLAYERCOLLIDE|DRONECOLLIDE, damage);
     }
 
     // create and return gem to drop can only collide with player and player bullets

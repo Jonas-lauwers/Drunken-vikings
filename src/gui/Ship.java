@@ -20,6 +20,7 @@ public class Ship extends SimulationBody {
 
     private double angle;       // holds the angle in which we are turned
     private Vector2 direction;  // holds the coordinate of the mouse
+    private Drone drone;        //holds the drone your playing with
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
@@ -46,11 +47,13 @@ public class Ship extends SimulationBody {
         //set start angle to 0
         this.angle = 0;
         //set shield value(equal to life)
-        this.shield = 10;
+        this.shield = 500;
         //set the direction were facing to 0
         this.direction = new Vector2();
         //set default damage of ship
         this.damage = 1;
+        
+        this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, true);
     }
 
     /**
@@ -62,6 +65,7 @@ public class Ship extends SimulationBody {
      */
     public void move(double x, double y) {
         this.getLinearVelocity().add(x, y);
+        drone.move(x, y);
     }
 
     /**
@@ -74,6 +78,7 @@ public class Ship extends SimulationBody {
         this.rotate(this.angle - degree, this.getWorldCenter());
         this.angle = degree;
         this.direction = p;
+        drone.turnToAngle(p);
     }
 
     /**
@@ -90,5 +95,9 @@ public class Ship extends SimulationBody {
      */
     public Bullet shoot() {
         return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE | GEMCOLLIDE, damage);
+    }
+    
+    public SimulationBody getDrone() {
+        return drone;
     }
 }

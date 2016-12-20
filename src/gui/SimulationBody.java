@@ -3,7 +3,6 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Ellipse2D;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
@@ -32,6 +31,7 @@ public class SimulationBody extends Body {
     public static final int ENEMYCOLLIDE = 2;
     public static final int BULLETCOLLIDE = 4;
     public static final int GEMCOLLIDE = 8;
+    public static final int DRONECOLLIDE = 16;
 
     protected int shield = 0;
     protected int damage = 0;

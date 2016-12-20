@@ -81,12 +81,12 @@ public class geowars extends simulationPanel {
         this.rand = new Random();
     }
 
-	// temp vars for ship and enemy for testing
-	private Ship ship;
-	private ArrayList<Enemy> enemyList;
-	private ArrayList<EnemySpawner> spawnerList;
-        private int experience = 0;
-        private int score = 0;
+    // temp vars for ship and enemy for testing
+    private Ship ship;
+    private ArrayList<Enemy> enemyList;
+    private ArrayList<EnemySpawner> spawnerList;
+    private int experience = 0;
+    private int score = 0;
 
     // privates for controlling player action
     private boolean moveLeft;
@@ -113,8 +113,8 @@ public class geowars extends simulationPanel {
             }
             return true;
         }
-            
-		@Override
+
+        @Override
         public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1) {
             boolean cont = true;
             if (body instanceof SimulationBody && body1 instanceof SimulationBody) {
@@ -238,81 +238,80 @@ public class geowars extends simulationPanel {
         left.translate(0, 768 / 2);
         this.world.addBody(left);
 
-		ship = new Ship();
-		this.world.addBody(ship);
-		enemyList = new ArrayList<>();
-		spawnerList = new ArrayList<>();
-		spawnerList.add(new EnemySpawner(1, 10, 10, "NORMAL"));
-		spawnerList.add(new EnemySpawner(1, 950, 10, "NORMAL"));
-	}
+        ship = new Ship();
+        this.world.addBody(ship);
+        enemyList = new ArrayList<>();
+        spawnerList = new ArrayList<>();
+        spawnerList.add(new EnemySpawner(1, 10, 10, "NORMAL"));
+        spawnerList.add(new EnemySpawner(1, 950, 10, "NORMAL"));
+    }
 
     /*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.dyn4j.samples.SimulationFrame#update(java.awt.Graphics2D,
 	 * double)
-	 */
-	@Override
-	protected void update(Graphics2D g, double elapsedTime) {
-		// do player action based on key/mouse input
-		if (moveLeft) {
-			ship.move(-50, 0);
-		}
-		if (moveRight) {
-			ship.move(50, 0);
-		}
-		if (moveUp) {
-			ship.move(0, -50);
-		}
-		if (moveDown) {
-			ship.move(0, 50);
-		}
-		if (firing && !ship.isDead()) {
-			this.world.addBody(ship.shoot());
-			firing = false;
-		}
-		ship.turnToAngle();
+     */
+    @Override
+    protected void update(Graphics2D g, double elapsedTime) {
+        // do player action based on key/mouse input
+        if (moveLeft) {
+            ship.move(-50, 0);
+        }
+        if (moveRight) {
+            ship.move(50, 0);
+        }
+        if (moveUp) {
+            ship.move(0, -50);
+        }
+        if (moveDown) {
+            ship.move(0, 50);
+        }
+        if (firing && !ship.isDead()) {
+            this.world.addBody(ship.shoot());
+            firing = false;
+        }
+        ship.turnToAngle();
 
-		for (Enemy enemy : enemyList) {
-			if (!enemy.isDead()) {
-				enemy.move(ship.getWorldCenter());
-				if (rand.nextInt(100) == 5) {
-					this.world.addBody(enemy.shoot());
-				}
-			}
-		}
-		for (EnemySpawner spawner : spawnerList) {
-			if (rand.nextInt(600) <= spawner.getSpeed()) {
-				// less reading in an array :)
-				Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos());
-				enemy.translate(10, 10);
-				enemyList.add(enemy);
-				this.world.addBody(enemy);
-			}
-		}
-		// stop simulation if player is dead.
-		if (ship.isDead()) {
-			this.stop();
-                        System.out.format("Score: %d, experience: %d", score, experience);
-		}
-		super.update(g, elapsedTime);
-	}
+        for (Enemy enemy : enemyList) {
+            if (!enemy.isDead()) {
+                enemy.move(ship.getWorldCenter());
+                if (rand.nextInt(100) == 5) {
+                    this.world.addBody(enemy.shoot());
+                }
+            }
+        }
+        for (EnemySpawner spawner : spawnerList) {
+            if (rand.nextInt(600) <= spawner.getSpeed()) {
+                // less reading in an array :)
+                Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos());
+                enemy.translate(10, 10);
+                enemyList.add(enemy);
+                this.world.addBody(enemy);
+            }
+        }
+        // stop simulation if player is dead.
+        if (ship.isDead()) {
+            this.stop();
+            System.out.format("Score: %d, experience: %d", score, experience);
+        }
+        super.update(g, elapsedTime);
+    }
 
-	/**
-	 * Entry point for the example application.
-	 *
-	 * @param args
-	 *            command line arguments
-	 */
-	public static void main(String[] args) {
-		JFrame temp = new JFrame("geowars");
-		temp.setResizable(false);
-		temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		geowars simulation = new geowars();
-		temp.add(simulation);
-		temp.pack();
-		temp.setVisible(true);
-		simulation.setFocusable(true);
-		simulation.run();
-	}
+    /**
+     * Entry point for the example application.
+     *
+     * @param args command line arguments
+     */
+    public static void main(String[] args) {
+        JFrame temp = new JFrame("geowars");
+        temp.setResizable(false);
+        temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        geowars simulation = new geowars();
+        temp.add(simulation);
+        temp.pack();
+        temp.setVisible(true);
+        simulation.setFocusable(true);
+        simulation.run();
+    }
 }

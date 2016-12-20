@@ -22,7 +22,7 @@ public class Enemy extends SimulationBody {
     private double angle;
     private Vector2 direction;
 
-    public Enemy(int shield, int damage) {
+    public Enemy(int shield, int damage, int xPos, int yPos) {
         
         Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
@@ -40,7 +40,7 @@ public class Enemy extends SimulationBody {
         
         this.setAutoSleepingEnabled(false);
         
-        this.translate(400,500);
+        this.translate(xPos,yPos);
         
         this.angle = 0;
         

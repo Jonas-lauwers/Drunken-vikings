@@ -32,7 +32,7 @@ public class Bullet extends SimulationBody {
         double y = (15 * Math.sin(degree - Math.toRadians(90)));
 
         this.translate(location.x + x, location.y + y);
-        this.setLinearVelocity(x * 5, y * 5);
+        this.setLinearVelocity(x * 7, y * 7);
         this.damage = damage;
         
     }

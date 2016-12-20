@@ -85,6 +85,8 @@ public class geowars extends simulationPanel {
 	private Ship ship;
 	private ArrayList<Enemy> enemyList;
 	private ArrayList<EnemySpawner> spawnerList;
+        private int experience = 0;
+        private int score = 0;
 
     // privates for controlling player action
     private boolean moveLeft;

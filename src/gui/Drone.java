@@ -29,6 +29,7 @@ public class Drone extends SimulationBody {
     //to define if we can fire, to define more like this :P
     private boolean canFire;    //makes drone able to fire and rotate around its center
     private boolean rotatesShip; //makes the drone rotate around the ship
+    private double rotateSpeed;
 
     //long constructor, can be placed in setters instead and use defaults when not setting them.
     public Drone(Ship ship, Vector2 distance, int shield, int damage, long collides, boolean canFire) {
@@ -71,8 +72,24 @@ public class Drone extends SimulationBody {
 
         this.canFire = canFire;
         this.rotatesShip = true;
+        this.rotateSpeed = 0.05;
     }
     
+    /**
+     * Set the rotate speed in radians. The ship will rotate this radial 
+     * every frame, so the actual speed is dependent on the frame rate.
+     * 
+     * @param speed Radians to rotate per frame
+     */
+    public void setRotateSpeed(double speed) {
+        this.rotateSpeed = speed;
+    }
+    
+    /**
+     * Return true if the drone can fire
+     * 
+     * @return boolean true if ship can fire
+     */
     public boolean canFire() {
         return canFire;
     }
@@ -99,8 +116,8 @@ public class Drone extends SimulationBody {
      */
     public void rotateToAngle() {
         if (rotatesShip) {
-            this.rotate(0.05 , ship.getWorldCenter());
-            difference = difference.rotate(0.05);
+            this.rotate(rotateSpeed , ship.getWorldCenter());
+            difference = difference.rotate(rotateSpeed);
         }
     }
 

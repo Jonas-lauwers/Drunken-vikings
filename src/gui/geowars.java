@@ -122,8 +122,8 @@ public class geowars extends simulationPanel {
                 SimulationBody b1 = (SimulationBody) body1;
                 b.isHit(b1);
                 b1.isHit(b);
-                cont = cont && checkDeadness(b);
-                cont = cont && checkDeadness(b1);
+                cont = checkDeadness(b) && cont;
+                cont = checkDeadness(b1) && cont;
             }
             return cont;
 

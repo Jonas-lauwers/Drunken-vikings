@@ -30,6 +30,8 @@ public class SimulationBody extends Body {
         
         protected int shield = 0;
         protected int damage = 0;
+        protected int expPoints = 0;
+        protected int scorePoints = 0;
 	/**
 	 * Default constructor.
 	 */
@@ -61,6 +63,14 @@ public class SimulationBody extends Body {
         
         public int getDamage() {
             return damage;
+        }
+        
+        public int getExpPoints() {
+            return expPoints;
+        }
+        
+        public int getScorePoints() {
+            return scorePoints;
         }
 
 	/**

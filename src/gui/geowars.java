@@ -293,6 +293,7 @@ public class geowars extends simulationPanel {
 		// stop simulation if player is dead.
 		if (ship.isDead()) {
 			this.stop();
+                        System.out.format("Score: %d, experience: %d", score, experience);
 		}
 		super.update(g, elapsedTime);
 	}

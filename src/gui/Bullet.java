@@ -12,6 +12,7 @@ public class Bullet extends SimulationBody {
     /**
      * Create a bullet on a location moving towards a direction and can collide
      * with the given filter.
+     *
      * @param location The location of spawning
      * @param direction The direction it's moving in
      * @param collideFilter The filter which tells what it can collide with
@@ -34,6 +35,6 @@ public class Bullet extends SimulationBody {
         this.translate(location.x + x, location.y + y);
         this.setLinearVelocity(x * 7, y * 7);
         this.damage = damage;
-        
+
     }
 }

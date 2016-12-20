@@ -46,6 +46,7 @@ import org.dyn4j.dynamics.World;
  * @author William Bittle
  * @since 3.2.0
  * @version 3.2.0
+ * Test frame for the game, will be replaced with a more defined version
  */
 public abstract class simulationPanel extends Canvas {
 	/** The serial version id */

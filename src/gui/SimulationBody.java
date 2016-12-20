@@ -14,11 +14,24 @@ import org.dyn4j.geometry.Convex;
  * @author William Bittle
  * @version 3.2.1
  * @since 3.0.0
+ * Has some extra functionality (isHit, isDead ....) will be replaced by a 
+ * full blown object that encapsulates all moving/living/shooting objects.
  */
 public class SimulationBody extends Body {
 	/** The color of the object */
 	protected Color color;
+        
+        /** the filter categories to define what can collide with who **/
+        public static final int PLAYERCOLLIDE = 1;
+        public static final int ENEMYCOLLIDE = 2;
+        public static final int BULLETCOLLIDE = 4;
+        public static final int GEMCOLLIDE = 8;
 	
+        
+        protected int shield = 0;
+        protected int damage = 0;
+        protected int expPoints = 0;
+        protected int scorePoints = 0;
 	/**
 	 * Default constructor.
 	 */
@@ -37,6 +50,28 @@ public class SimulationBody extends Body {
 	public SimulationBody(Color color) {
 		this.color = color;
 	}
+        
+        //added body param to get damage of the colliding body
+        //if it's a gem or something else they still can get hit but with 0 damage
+        public void isHit(SimulationBody b) {
+            shield -= b.getDamage();
+        }
+
+        public boolean isDead() {
+            return shield <= 0;
+        }
+        
+        public int getDamage() {
+            return damage;
+        }
+        
+        public int getExpPoints() {
+            return expPoints;
+        }
+        
+        public int getScorePoints() {
+            return scorePoints;
+        }
 
 	/**
 	 * Draws the body.
@@ -57,10 +92,7 @@ public class SimulationBody extends Body {
 	 * @param scale the scaling factor
 	 * @param color the color to render the body
 	 */
-	public void render(Graphics2D g, double scale, Color color) {
-		// point radius
-		final int pr = 4;
-		
+	public void render(Graphics2D g, double scale, Color color) {		
 		// save the original transform
 		AffineTransform ot = g.getTransform();
 		
@@ -76,18 +108,6 @@ public class SimulationBody extends Body {
 		for (BodyFixture fixture : this.fixtures) {
 			this.renderFixture(g, scale, fixture, color);
 		}
-		
-		// draw a center point
-		Ellipse2D.Double ce = new Ellipse2D.Double(
-				this.getLocalCenter().x * scale - pr * 0.5,
-				this.getLocalCenter().y * scale - pr * 0.5,
-				pr,
-				pr);
-		g.setColor(Color.WHITE);
-		g.fill(ce);
-		g.setColor(Color.DARK_GRAY);
-		g.draw(ce);
-		
 		// set the original transform
 		g.setTransform(ot);
 	}

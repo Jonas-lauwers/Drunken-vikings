@@ -22,9 +22,10 @@ public class Enemy extends SimulationBody {
     private double angle;
     private Vector2 direction;
 
-    public Enemy(int shield, int damage, int xPos, int yPos) {
+    public Enemy(int shield, int damage, int xPos, int yPos, String imageLoc) {
 
-        Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
+        Convex shape = Geometry.createRectangle(30, 30);
+        //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
 
@@ -49,6 +50,11 @@ public class Enemy extends SimulationBody {
         this.shield = shield;
         this.damage = damage;
         this.scorePoints = 10;
+        
+        //rotate body to allign with skin;
+        this.rotate(Math.toRadians(90), this.getWorldCenter());
+        
+        this.skin = getImageSuppressExceptions(imageLoc);
     }
 
     public void move(Vector2 point) {
@@ -85,7 +91,7 @@ public class Enemy extends SimulationBody {
     // when making this class override isHit(SimBody) so it does the super function 
     // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
-        Convex shape = Geometry.createCircle(5);
+        Convex shape = Geometry.createCircle(10);
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
         SimulationBody gem = new SimulationBody();
@@ -94,6 +100,7 @@ public class Enemy extends SimulationBody {
         gem.translateToOrigin();
         gem.translate(this.getWorldCenter());
         gem.expPoints = 5;
+        gem.skin = getImageSuppressExceptions("/assets/Collectibles_Droppables/Points/Diamond-1.png");
         return gem;
     }
 }

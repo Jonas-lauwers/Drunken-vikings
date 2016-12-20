@@ -17,6 +17,8 @@ import org.dyn4j.geometry.Vector2;
  * @author Jonas Lauwers
  */
 public class Ship extends SimulationBody {
+    
+    private static final String PLAYER = "/assets/Player/Player-1.png";
 
     private double angle;       // holds the angle in which we are turned
     private Vector2 direction;  // holds the coordinate of the mouse
@@ -24,7 +26,8 @@ public class Ship extends SimulationBody {
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
-        Convex shape = Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
+        Convex shape = Geometry.createRectangle(30, 30);
+        //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE));
 
@@ -53,6 +56,9 @@ public class Ship extends SimulationBody {
         //set default damage of ship
         this.damage = 1;
         
+        //rotate body to allign with skin;
+        this.rotate(Math.toRadians(90), this.getWorldCenter());
+        
         //this drone can defend and pickup gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends
@@ -61,6 +67,8 @@ public class Ship extends SimulationBody {
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE, false);
         // this drone only attacks
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
+        
+        this.skin = getImageSuppressExceptions(PLAYER);
     }
 
     /**
@@ -101,7 +109,7 @@ public class Ship extends SimulationBody {
      * @return The bullet
      */
     public Bullet shoot() {
-        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE | GEMCOLLIDE, damage);
+        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
     }
     
     public Drone getDrone() {

@@ -3,10 +3,13 @@ package gui;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import org.dyn4j.dynamics.Body;
 import org.dyn4j.dynamics.BodyFixture;
-import org.dyn4j.geometry.Convex;
+import org.dyn4j.geometry.*;
 
 /**
  * Custom Body class to add drawing functionality.
@@ -37,6 +40,7 @@ public class SimulationBody extends Body {
     protected int damage = 0;
     protected int expPoints = 0;
     protected int scorePoints = 0;
+    protected BufferedImage skin = null;
 
     /**
      * Default constructor.
@@ -78,6 +82,14 @@ public class SimulationBody extends Body {
 
     public int getScorePoints() {
         return scorePoints;
+    }
+
+    protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+        try {
+            return ImageIO.read(SimulationBody.class.getResource(pathOnClasspath));
+        } catch (IOException | IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
@@ -137,8 +149,47 @@ public class SimulationBody extends Body {
         if (this.isAsleep()) {
             color = color.brighter();
         }
-
-        // render the fixture
-        Graphics2DRenderer.render(g, convex, scale, color);
+        if (skin != null) {
+            if (convex instanceof Polygon) {
+                // since Triangle, Rectangle, and Polygon are all of
+                // type Polygon in addition to their main type
+                if (convex instanceof Rectangle) {
+                    Rectangle r = (Rectangle) convex;
+                    Vector2 c = r.getCenter();
+                    double w = r.getWidth();
+                    double h = r.getHeight();
+                    g.drawImage(skin,
+                            (int) Math.ceil((c.x - w / 2.0) * scale),
+                            (int) Math.ceil((c.y - h / 2.0) * scale),
+                            (int) Math.ceil(w * scale),
+                            (int) Math.ceil(h * scale),
+                            null);
+                    g.drawRect((int) Math.ceil((c.x - w / 2.0) * scale),
+                            (int) Math.ceil((c.y - h / 2.0) * scale),
+                            (int) Math.ceil(w * scale),
+                            (int) Math.ceil(h * scale));
+                } else {
+                    Graphics2DRenderer.render(g, convex, scale, this.color);
+                }
+            } else if (convex instanceof Circle) {
+                // cast the shape to get the radius
+                Circle c = (Circle) convex;
+                double r = c.getRadius();
+                Vector2 cc = c.getCenter();
+                int x = (int) Math.ceil((cc.x - r) * scale);
+                int y = (int) Math.ceil((cc.y - r) * scale);
+                int w = (int) Math.ceil(r * 2 * scale);
+                if (this.getFixtureCount() == 1) {
+                    // lets us an image instead
+                    g.drawImage(skin, x, y, w, w, null);
+                } else {
+                    Graphics2DRenderer.render(g, convex, scale, this.color);
+                }
+            } else {
+                Graphics2DRenderer.render(g, convex, scale, this.color);
+            }
+        } else {
+            Graphics2DRenderer.render(g, convex, scale, this.color);
+        }
     }
 }

@@ -247,8 +247,8 @@ public class geowars extends simulationPanel {
         this.world.addBody(ship.getDrone());
         enemyList = new ArrayList<>();
         spawnerList = new ArrayList<>();
-        spawnerList.add(new EnemySpawner(1, 10, 10, "NORMAL"));
-        spawnerList.add(new EnemySpawner(1, 950, 10, "NORMAL"));
+        spawnerList.add(new EnemySpawner(1, 10, 10, "DRAGON"));
+        spawnerList.add(new EnemySpawner(1, 950, 10, "KING"));
     }
 
     /*
@@ -293,7 +293,7 @@ public class geowars extends simulationPanel {
         for (EnemySpawner spawner : spawnerList) {
             if (rand.nextInt(600) <= spawner.getSpeed()) {
                 // less reading in an array :)
-                Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos());
+                Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos(), spawner.getType());
                 enemy.translate(10, 10);
                 enemyList.add(enemy);
                 this.world.addBody(enemy);

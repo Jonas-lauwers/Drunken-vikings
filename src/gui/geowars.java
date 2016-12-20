@@ -87,6 +87,9 @@ public class geowars extends simulationPanel {
     private ArrayList<EnemySpawner> spawnerList;
     private int experience = 0;
     private int score = 0;
+    private int multiplier = 1;
+    
+    private int deadCount = 0;
 
     // privates for controlling player action
     private boolean moveLeft;
@@ -106,9 +109,10 @@ public class geowars extends simulationPanel {
                 if (b instanceof Enemy) {
                     Enemy e = (Enemy) b;
                     world.addBody(e.dropGem());
+                    deadCount++;
                 }
-                experience += b.getExpPoints();
-                score += b.getScorePoints();
+                experience += b.getExpPoints() * multiplier;
+                score += b.getScorePoints() * multiplier;
                 return false;
             }
             return true;
@@ -300,6 +304,12 @@ public class geowars extends simulationPanel {
             this.stop();
             System.out.format("Score: %d, experience: %d", score, experience);
         }
+        
+        if(deadCount == 10) {
+            multiplier = 2;
+            ship.getDrone().setRotateSpeed(0.2);
+        }
+        
         super.update(g, elapsedTime);
     }
 

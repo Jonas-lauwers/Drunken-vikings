@@ -24,7 +24,6 @@ public class Drone extends SimulationBody {
     private Vector2 direction;  //holds the position it should go to or be at
     private double angle;          //holds the angle of rotation 
     //(only for attacker i guess so it can rotate around itself to fire)
-    private double rotate_angle; //holds the angle where the drone rotated
     
     //place some booleans to define wheter we rotate around ourself or not
     //to define if we can fire, to define more like this :P
@@ -72,7 +71,10 @@ public class Drone extends SimulationBody {
 
         this.canFire = canFire;
         this.rotatesShip = true;
-        this.rotate_angle = 0;
+    }
+    
+    public boolean canFire() {
+        return canFire;
     }
 
     /**
@@ -98,8 +100,7 @@ public class Drone extends SimulationBody {
     public void rotateToAngle() {
         if (rotatesShip) {
             this.rotate(0.05 , ship.getWorldCenter());
-            difference.rotate(rotate_angle);
-            this.rotate_angle += 0.05;
+            difference = difference.rotate(0.05);
         }
     }
 

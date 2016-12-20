@@ -87,7 +87,7 @@ public class Enemy extends SimulationBody {
     public SimulationBody dropGem() {
         Convex shape = Geometry.createCircle(5);
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE));
+        fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
         SimulationBody gem = new SimulationBody();
         gem.addFixture(fixture);
         gem.setMass(MassType.FIXED_LINEAR_VELOCITY);

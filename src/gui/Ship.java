@@ -53,7 +53,7 @@ public class Ship extends SimulationBody {
         //set default damage of ship
         this.damage = 1;
         
-        this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, true);
+        this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
     }
 
     /**
@@ -97,7 +97,7 @@ public class Ship extends SimulationBody {
         return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE | GEMCOLLIDE, damage);
     }
     
-    public SimulationBody getDrone() {
+    public Drone getDrone() {
         return drone;
     }
 }

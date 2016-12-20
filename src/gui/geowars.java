@@ -279,8 +279,10 @@ public class geowars extends simulationPanel {
                 enemy.move(ship.getWorldCenter());
                 if (rand.nextInt(100) == 5) {
                     this.world.addBody(enemy.shoot());
-                    //this is complex to read :(
-                    this.world.addBody(((Drone)ship.getDrone()).shoot());
+                    Drone drone = ship.getDrone();
+                    if(drone.canFire()) {
+                        this.world.addBody(((Drone)ship.getDrone()).shoot());
+                    }
                 }
             }
         }

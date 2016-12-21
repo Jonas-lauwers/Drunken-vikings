@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;

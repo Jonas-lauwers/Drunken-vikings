@@ -19,6 +19,7 @@ import org.dyn4j.geometry.Vector2;
 public class Ship extends SimulationBody {
     
     private static final String PLAYER = "/assets/Player/Player-1.png";
+    private static final String PLAYERSPRITE = "/assets/Player/Player-Sprite-277px.png";
 
     private double angle;       // holds the angle in which we are turned
     private Vector2 direction;  // holds the coordinate of the mouse
@@ -26,7 +27,7 @@ public class Ship extends SimulationBody {
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
-        Convex shape = Geometry.createRectangle(30, 30);
+        Convex shape = Geometry.createRectangle(65, 45);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE));
@@ -65,13 +66,17 @@ public class Ship extends SimulationBody {
         //this drone can defend and pickup gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends
-        this.drone = new Drone(this, new Vector2(30,30), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
+        this.drone = new Drone(this, new Vector2(50,50), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
         // this drone only picks up gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE, false);
         // this drone only attacks
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
         
-        this.skin = getImageSuppressExceptions(PLAYER);
+        this.skin = getImageSuppressExceptions(PLAYERSPRITE);
+        this.hasSprite = true;
+        this.numberOfSprites = 6;
+        this.spriteHeight = 100;
+        this.spriteWidth = 277;
     }
 
     /**

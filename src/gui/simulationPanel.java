@@ -245,7 +245,7 @@ public abstract class simulationPanel extends Canvas {
         final int h = this.getHeight();
 
         // lets draw over everything with a white background
-        g.setColor(Color.BLUE);
+        g.setColor(new Color(73,144,255));
         g.fillRect(0, 0, w, h);
         g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
     }

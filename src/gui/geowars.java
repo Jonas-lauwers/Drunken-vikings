@@ -309,7 +309,6 @@ public class geowars extends simulationPanel {
         
         if(deadCount == 10) {
             multiplier = 2;
-            ship.getDrone().setRotateSpeed(0.2);
         }
         
         super.update(g, elapsedTime);

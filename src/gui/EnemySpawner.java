@@ -1,6 +1,8 @@
 package gui;
 
-
+// why doesn't this create the enemies? this should be a factory class that 
+// creates and adds the enemies to the world, so it should have the world as 
+// parameter to.
 public class EnemySpawner {
 
     private static final String DRAGON = "/assets/Enemies/Enemy-DragonShip-1.png";

@@ -59,6 +59,9 @@ public class Ship extends SimulationBody {
         //rotate body to allign with skin;
         this.rotate(Math.toRadians(90), this.getWorldCenter());
         
+        // creation of drones should go somewhere else, menu probably and given
+        //to the ship with a setter or in the constructor
+        
         //this drone can defend and pickup gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends

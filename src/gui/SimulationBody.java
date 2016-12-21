@@ -20,6 +20,8 @@ import org.dyn4j.geometry.*;
  * replaced by a full blown object that encapsulates all moving/living/shooting
  * objects.
  */
+// we should rename this one and refactor to our own use so it has all the basic
+// needs for our body classes that extend this. 
 public class SimulationBody extends Body {
 
     /**
@@ -41,6 +43,7 @@ public class SimulationBody extends Body {
     protected int expPoints = 0;
     protected int scorePoints = 0;
     protected BufferedImage skin = null;
+    protected String type;
 
     /**
      * Default constructor.

@@ -7,6 +7,7 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
+// this should also get a factory to spawn the bullets so we can also limit them
 public class Bullet extends SimulationBody {
     
     private static final String ARROW = "/assets/Projectiles/Arrow-1.png";

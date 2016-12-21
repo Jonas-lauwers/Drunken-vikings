@@ -87,20 +87,7 @@ public class Enemy extends SimulationBody {
         return new Bullet(this.getWorldCenter(), direction, PLAYERCOLLIDE|DRONECOLLIDE, damage);
     }
 
-    // create and return gem to drop can only collide with player and player bullets
-    // when making this class override isHit(SimBody) so it does the super function 
-    // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
-        Convex shape = Geometry.createCircle(10);
-        BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
-        SimulationBody gem = new SimulationBody();
-        gem.addFixture(fixture);
-        gem.setMass(MassType.FIXED_LINEAR_VELOCITY);
-        gem.translateToOrigin();
-        gem.translate(this.getWorldCenter());
-        gem.expPoints = 5;
-        gem.skin = getImageSuppressExceptions("/assets/Collectibles_Droppables/Points/Diamond-1.png");
-        return gem;
+        return new Gem(this.getWorldCenter(), 5, "wood");
     }
 }

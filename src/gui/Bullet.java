@@ -10,6 +10,8 @@ import org.dyn4j.geometry.Vector2;
 public class Bullet extends SimulationBody {
     
     private static final String ARROW = "/assets/Projectiles/Arrow-1.png";
+    private static final String AXE = "/assets/Projectiles/Axe.png";
+    private static final String HAMMER = "/assets/Projectiles/Hammer-1.png";
     
     /**
      * Create a bullet on a location moving towards a direction and can collide

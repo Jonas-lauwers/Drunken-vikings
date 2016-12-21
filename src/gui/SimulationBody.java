@@ -35,6 +35,7 @@ public class SimulationBody extends Body {
     public static final int BULLETCOLLIDE = 4;
     public static final int GEMCOLLIDE = 8;
     public static final int DRONECOLLIDE = 16;
+    public static final int POWERCOLLIDE = 32;
 
     protected int shield = 0;
     protected int damage = 0;
@@ -85,8 +86,8 @@ public class SimulationBody extends Body {
         return scorePoints;
     }
     
-    public Power getPower() {
-        return power;
+    public void addPower(Power power) {
+        this.power = power;
     }
 
     protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {

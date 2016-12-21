@@ -215,6 +215,8 @@ public class geowars extends simulationPanel {
      * Creates game objects and adds them to the world.
      */
     protected void initializeWorld() {
+        // set the background
+        this.background = this.getImageSuppressExceptions("/assets/Background/Water-1.png");
         // set gravity to none :) welcome to space.
         this.world.setGravity(new Vector2(0, 0));
         // the floor
@@ -320,7 +322,7 @@ public class geowars extends simulationPanel {
      */
     public static void main(String[] args) {
         JFrame temp = new JFrame("geowars");
-        temp.setResizable(false);
+        temp.setResizable(true);
         temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         geowars simulation = new geowars();
         temp.add(simulation);

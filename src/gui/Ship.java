@@ -65,7 +65,7 @@ public class Ship extends SimulationBody {
         //this drone can defend and pickup gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends
-        this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
+        this.drone = new Drone(this, new Vector2(30,30), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
         // this drone only picks up gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE, false);
         // this drone only attacks

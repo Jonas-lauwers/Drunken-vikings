@@ -32,6 +32,9 @@ import java.awt.RenderingHints;
 import java.awt.Toolkit;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -86,6 +89,8 @@ public abstract class simulationPanel extends Canvas {
      */
     private long last;
 
+    
+    protected BufferedImage background;
     /**
      * Constructor.
      * <p>
@@ -112,6 +117,14 @@ public abstract class simulationPanel extends Canvas {
 
         // setup the world
         this.initializeWorld();
+    }
+    
+    protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
+        try {
+            return ImageIO.read(SimulationBody.class.getResource(pathOnClasspath));
+        } catch (IOException | IllegalArgumentException e) {
+            return null;
+        }
     }
 
     /**
@@ -234,6 +247,7 @@ public abstract class simulationPanel extends Canvas {
         // lets draw over everything with a white background
         g.setColor(Color.WHITE);
         g.fillRect(0, 0, w, h);
+        g.drawImage(background, 0, 0, this.getWidth(), this.getHeight(), null);
     }
 
     /**

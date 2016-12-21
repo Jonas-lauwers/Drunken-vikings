@@ -26,12 +26,14 @@ public class SimulationBody extends Body {
         public static final int ENEMYCOLLIDE = 2;
         public static final int BULLETCOLLIDE = 4;
         public static final int GEMCOLLIDE = 8;
+        public static final int POWERCOLLIDE = 9;
 	
         
         protected int shield = 0;
         protected int damage = 0;
         protected int expPoints = 0;
         protected int scorePoints = 0;
+        protected Power power = null;
 	/**
 	 * Default constructor.
 	 */
@@ -72,6 +74,10 @@ public class SimulationBody extends Body {
         public int getScorePoints() {
             return scorePoints;
         }
+        
+        public Power getPower() {
+            return power;
+        } 
 
 	/**
 	 * Draws the body.

@@ -98,4 +98,16 @@ public class Enemy extends SimulationBody {
         gem.expPoints = 5;
         return gem;
     }
+    public SimulationBody dropPower(){
+    	Convex shape = Geometry.createCircle(5);
+        BodyFixture fixture = new BodyFixture(shape);
+        fixture.setFilter(new CategoryFilter(GEMCOLLIDE,PLAYERCOLLIDE|BULLETCOLLIDE));
+        SimulationBody power = new SimulationBody();
+        power.addFixture(fixture);        
+        power.setMass(MassType.FIXED_LINEAR_VELOCITY);
+        power.translateToOrigin();      
+        power.translate(this.getWorldCenter());
+        power.power = new Power();
+        return power;
+    }
 }

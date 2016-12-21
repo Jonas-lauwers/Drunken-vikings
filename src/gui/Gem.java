@@ -32,7 +32,6 @@ public class Gem extends SimulationBody {
         Convex shape = Geometry.createCircle(10);
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
-        SimulationBody gem = new SimulationBody();
         this.addFixture(fixture);
         this.setMass(MassType.FIXED_LINEAR_VELOCITY);
         this.translateToOrigin();
@@ -44,7 +43,7 @@ public class Gem extends SimulationBody {
         catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException ex) {
             this.type = "";
         }
-        this.skin = getImageSuppressExceptions(type);
+        this.skin = getImageSuppressExceptions(this.type);
     }
     
     @Override

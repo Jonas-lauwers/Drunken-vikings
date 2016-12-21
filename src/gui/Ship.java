@@ -5,6 +5,8 @@
  */
 package gui;
 
+import java.lang.reflect.Field;
+import java.text.DateFormat;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -21,149 +23,139 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Ship extends SimulationBody {
 
-	private static final String PLAYER = "/assets/Player/Player-1.png";
+    private static final String PLAYER = "/assets/Player/Player-1.png";
 
-	private double angle; // holds the angle in which we are turned
-	private Vector2 direction; // holds the coordinate of the mouse
-	private Drone drone; // holds the drone your playing with
-	private Power power;
-	private Boolean droneIsActive;
-	private HashMap<String, Double> timerMap;
+    private double angle; // holds the angle in which we are turned
+    private Vector2 direction; // holds the coordinate of the mouse
+    private Drone drone; // holds the drone your playing with
+    private Power power;
+    private boolean droneIsActive;
+    private HashMap<String, Double> timerMap;
 
-	public Ship() {
-		// Create shape, fixture, body and add a collision filter to it
-		Convex shape = Geometry.createRectangle(30, 30);
-		// Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new
-		// Vector2(10, 10));
-		BodyFixture fixture = new BodyFixture(shape);
-		fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE | POWERCOLLIDE));
+    public Ship() {
+        // Create shape, fixture, body and add a collision filter to it
+        Convex shape = Geometry.createRectangle(30, 30);
+        // Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new
+        // Vector2(10, 10));
+        BodyFixture fixture = new BodyFixture(shape);
+        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE | POWERCOLLIDE));
 
-		// aad fixture to body
-		this.addFixture(fixture);
-		// set body to NOT rotate when hit
-		this.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-		// set body to slow down?(only for applyforce and impulse?)
-		this.setLinearDamping(1);
-		// no clue at all
-		this.translateToOrigin();
-		// set impact of gravity ... there should not be gravity ... we're in
-		// space
-		this.setGravityScale(10);
-		// set moving velocity to 0;
-		this.setLinearVelocity(new Vector2(0, 0));
-		// never let this body sleep and stop doing collisiondetection
-		this.setAutoSleepingEnabled(false);
-		// put player in a certain position on screen
-		this.translate(512, 512);
-		// set start angle to 0
-		this.angle = 0;
-		// set shield value(equal to life)
-		this.shield = 20;
-		// set the direction were facing to 0
-		this.direction = new Vector2();
-		// set default damage of ship
-		this.damage = 1;
+        // aad fixture to body
+        this.addFixture(fixture);
+        // set body to NOT rotate when hit
+        this.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        // set body to slow down?(only for applyforce and impulse?)
+        this.setLinearDamping(1);
+        // no clue at all
+        this.translateToOrigin();
+        // set impact of gravity ... there should not be gravity ... we're in
+        // space
+        this.setGravityScale(10);
+        // set moving velocity to 0;
+        this.setLinearVelocity(new Vector2(0, 0));
+        // never let this body sleep and stop doing collisiondetection
+        this.setAutoSleepingEnabled(false);
+        // put player in a certain position on screen
+        this.translate(512, 512);
+        // set start angle to 0
+        this.angle = 0;
+        // set shield value(equal to life)
+        this.shield = 20;
+        // set the direction were facing to 0
+        this.direction = new Vector2();
+        // set default damage of ship
+        this.damage = 1;
 
-		this.droneIsActive = true;
+        this.droneIsActive = true;
 
-		this.timerMap = new HashMap<String, Double>();
+        this.timerMap = new HashMap<String, Double>();
 
-		// rotate body to allign with skin;
-		this.rotate(Math.toRadians(90), this.getWorldCenter());
+        // rotate body to allign with skin;
+        this.rotate(Math.toRadians(90), this.getWorldCenter());
 
-		// this drone can defend and pickup gems
-		// this.drone = new Drone(this, new Vector2(20,20), 500, 10,
-		// ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
-		// this drone only defends
-		this.drone = new Drone(this, new Vector2(20, 20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
-		// this drone only picks up gems
-		// this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE,
-		// false);
-		// this drone only attacks
-		// this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
+        // this drone can defend and pickup gems
+        // this.drone = new Drone(this, new Vector2(20,20), 500, 10,
+        // ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
+        // this drone only defends
+        this.drone = new Drone(this, new Vector2(20, 20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
+        // this drone only picks up gems
+        // this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE,
+        // false);
+        // this drone only attacks
+        // this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
 
-		this.skin = getImageSuppressExceptions(PLAYER);
-	}
+        this.skin = getImageSuppressExceptions(PLAYER);
+    }
 
-	/**
-	 * Move the body in a linear line according the values of direction x and
-	 * direction y
-	 *
-	 * @param x
-	 *            The speed value to move along the x axis
-	 * @param y
-	 *            The speed value to move along the y axis
-	 */
-	public void move(double x, double y) {
-		this.getLinearVelocity().add(x, y);
-		drone.move(x, y);
-	}
+    /**
+     * Move the body in a linear line according the values of direction x and
+     * direction y
+     *
+     * @param x The speed value to move along the x axis
+     * @param y The speed value to move along the y axis
+     */
+    public void move(double x, double y) {
+        this.getLinearVelocity().add(x, y);
+        drone.move(x, y);
+    }
 
-	/**
-	 * Rotate the body around it's center to a certain point on the screen
-	 *
-	 * @param p
-	 *            The point where the body should turn to
-	 */
-	public void turnToAngle(Vector2 p) {
-		double degree = (Math.atan2(-(this.getWorldCenter().y - p.y), this.getWorldCenter().x - p.x) - Math.PI / 2);
-		this.rotate(this.angle - degree, this.getWorldCenter());
-		this.angle = degree;
-		this.direction = p;
-		drone.turnToAngle(p);
-	}
+    /**
+     * Rotate the body around it's center to a certain point on the screen
+     *
+     * @param p The point where the body should turn to
+     */
+    public void turnToAngle(Vector2 p) {
+        double degree = (Math.atan2(-(this.getWorldCenter().y - p.y), this.getWorldCenter().x - p.x) - Math.PI / 2);
+        this.rotate(this.angle - degree, this.getWorldCenter());
+        this.angle = degree;
+        this.direction = p;
+        drone.turnToAngle(p);
+    }
 
-	/**
-	 * Rotate the body around it's center to the last given point.
-	 */
-	public void turnToAngle() {
-		turnToAngle(direction);
-	}
+    /**
+     * Rotate the body around it's center to the last given point.
+     */
+    public void turnToAngle() {
+        turnToAngle(direction);
+    }
 
-	/**
-	 * Make the ship shoot a bullet in the direction it's aiming
-	 *
-	 * @return The bullet
-	 */
-	public Bullet shoot() {
-		return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
-	}
+    /**
+     * Make the ship shoot a bullet in the direction it's aiming
+     *
+     * @return The bullet
+     */
+    public Bullet shoot() {
+        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
+    }
 
-	public Drone getDrone() {
-		return drone;
-	}
+    public Drone getDrone() {
+        return drone;
+    }
 
-	public boolean getDroneIsActive() {
-		return droneIsActive;
-	}
+    public boolean getDroneIsActive() {
+        return droneIsActive;
+    }
 
-	public void deactivateDrone(double time) {
-		droneIsActive = false;
-		timerMap.put("droneIsActive", time);
-	}
+    public void deactivateDrone(double time) {
+        droneIsActive = false;
+        timerMap.put("droneIsActive", time);
+    }
 
-	public void decreaseTimers(double timePassed) {
-		Iterator it = timerMap.keySet().iterator();
-		while (it.hasNext()) {
-			String key = (String) it.next();
-			Double temp = timerMap.get(key);
-			temp -= timePassed;
-			timerMap.put(key, temp);
-			System.out.println(temp);
-			if (temp <= 0) {
-				Boolean reverse;
-				try {
-					reverse = (Boolean) Ship.class.getField(key).get(null);
-					Ship.class.getField(key).set(null,!reverse);
-				} catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException
-						| SecurityException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				System.out.println(droneIsActive);
-				it.remove();
-			}
-
-		}
-	}
+    public void decreaseTimers(double timePassed) {
+        Iterator it = timerMap.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            Double temp = timerMap.get(key);
+            temp -= timePassed;
+            timerMap.put(key, temp);
+            if (temp <= 0) {
+                try {
+                    boolean reverse = Ship.class.getDeclaredField(key).getBoolean(this);
+                    Ship.class.getDeclaredField(key).setBoolean(this, !reverse);
+                    it.remove();
+                } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+                }
+            }
+        }
+    }
 }

@@ -274,7 +274,9 @@ public class geowars extends simulationPanel {
 			droneRemoved = !droneRemoved;
 		}
 		if (!ship.getDroneIsActive() && !droneRemoved) {
-			this.world.removeBody(ship.getDrone());
+                        Drone temp = ship.getDrone();
+			this.world.removeBody(temp);
+                        temp.rotateToAngle();
 			droneAdded = !droneAdded;
 			droneRemoved = !droneRemoved;
 		}

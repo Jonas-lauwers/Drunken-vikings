@@ -5,6 +5,7 @@
  */
 package gui;
 
+import java.util.List;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -21,6 +22,7 @@ public class Enemy extends SimulationBody {
 
     private double angle;
     private Vector2 direction;
+    private PowerFactory pf = new PowerFactory(100, 34);
 
     public Enemy(int shield, int damage, int xPos, int yPos, String imageLoc) {
 
@@ -102,5 +104,9 @@ public class Enemy extends SimulationBody {
         gem.expPoints = 5;
         gem.skin = getImageSuppressExceptions("/assets/Collectibles_Droppables/Points/Diamond-1.png");
         return gem;
+    }
+    
+    public List<Power> getPowers(Vector2 location) {
+        return pf.getPowers(location);
     }
 }

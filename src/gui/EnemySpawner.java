@@ -1,8 +1,5 @@
 package gui;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 public class EnemySpawner {
 
     private static final String DRAGON = "/assets/Enemies/Enemy-DragonShip-1.png";

@@ -1,11 +1,12 @@
 package gui;
 
-import org.dyn4j.geometry.Vector2;
 
 public class powerNoPal extends Power{
-	public powerNoPal(Vector2 location){
-		super(location, PLAYERCOLLIDE);
+    	
+        public powerNoPal(int droprate){
+		super(PLAYERCOLLIDE);
 		instantActivate = true;
+                this.dropRate = droprate;
 	}
 	public void doAction(SimulationBody body){
 		Ship ship = (Ship)body;

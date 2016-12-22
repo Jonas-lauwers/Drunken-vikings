@@ -1,10 +1,41 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 import org.dyn4j.geometry.Vector2;
 
 public class PowerFactory {
-	public Power createPower(Vector2 location){
-		Power power = null;
-		return power;
+    
+        private Random rand = new Random();
+    
+        private int dropRate;
+        private List<Power> powerList = new ArrayList<Power>();
+        
+        public PowerFactory(int generalDropRate, int enemyDroprate) {
+            this.dropRate = generalDropRate;
+            powerList.add(new powerNoPal(enemyDroprate));
+        }
+        
+        //add offset if more than one power returned
+	public List<Power> getPowers(Vector2 location){
+            List<Power> droppedPowers = new ArrayList<>();
+            for(Power p: powerList) {
+                if(willDropPower(p)){
+                    p.setLocation(location);
+                    droppedPowers.add(p);
+                }
+            }
+		return droppedPowers;
 	}
+        
+        public boolean willDropPower(Power power) {
+            int random = rand.nextInt(100);
+            System.out.println(random);
+            if((random <= dropRate) && (random <= power.getDropRate())) {
+                System.out.println("drop");
+                return true;
+            }
+            return false;
+        }
 }

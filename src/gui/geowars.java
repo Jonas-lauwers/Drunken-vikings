@@ -34,6 +34,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import javax.swing.JFrame;
 import org.dyn4j.collision.manifold.Manifold;
@@ -100,10 +101,19 @@ public class geowars extends simulationPanel {
 
 	private boolean droneAdded;
 	private boolean droneRemoved;
+        
 
 	private Random rand;
 
 	private class CustomCollisionListener extends CollisionAdapter {
+            
+                private void addDroppedPowers(List<Power> powers) {
+                    for(Power p : powers) {
+                        if(!world.containsBody(p)){
+                            world.addBody(p);
+                        }
+                    }
+                }
 
 		private boolean checkDeadness(SimulationBody b) {
 			if (b.isDead() && !b.getMass().isInfinite()) {
@@ -112,6 +122,7 @@ public class geowars extends simulationPanel {
 				if (b instanceof Enemy) {
 					Enemy e = (Enemy) b;
 					world.addBody(e.dropGem());
+                                        addDroppedPowers(e.getPowers(e.getWorldCenter()));
 					deadCount++;
 				}
 				experience += b.getExpPoints() * multiplier;
@@ -138,19 +149,19 @@ public class geowars extends simulationPanel {
 
 		@Override
 		public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Penetration pntrtn) {
-			System.out.println("penetration collision");
+			//System.out.println("penetration collision");
 			return true;
 		}
 
 		@Override
 		public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Manifold mnfld) {
-			System.out.println("manifold collision");
+			//System.out.println("manifold collision");
 			return true;
 		}
 
 		@Override
 		public boolean collision(ContactConstraint cc) {
-			System.out.println("contactconstraint collision");
+			//System.out.println("contactconstraint collision");
 			return true;
 		}
 	}
@@ -256,7 +267,7 @@ public class geowars extends simulationPanel {
 		spawnerList.add(new EnemySpawner(1, 10, 10, "DRAGON"));
 		spawnerList.add(new EnemySpawner(1, 950, 10, "KING"));
 		
-		this.world.addBody(new powerNoPal(new Vector2(300,300)));
+		//this.world.addBody(new powerNoPal(new Vector2(300,300)));
 	}
 
 	/*

@@ -52,7 +52,7 @@ public class SimulationBody extends Body {
     protected BufferedImage skin = null;
     protected Power power;
     protected HashMap<String, Double> timerMap;
-    protected boolean droneIsActive;
+    protected boolean droneIsActive = true;
     protected boolean instantDeath;
     protected boolean noFire;
 

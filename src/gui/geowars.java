@@ -280,14 +280,14 @@ public class geowars extends simulationPanel {
 	protected void update(Graphics2D g, double elapsedTime) {
 		// do player action based on key/mouse input
 		if (ship.getDroneIsActive() && !droneAdded) {
-			this.world.addBody(ship.getDrone());
+                        Drone temp = ship.getDrone();
+			this.world.addBody(temp);
+                        temp.rotateToAngle();
 			droneAdded = !droneAdded;
 			droneRemoved = !droneRemoved;
 		}
 		if (!ship.getDroneIsActive() && !droneRemoved) {
-                        Drone temp = ship.getDrone();
-			this.world.removeBody(temp);
-                        temp.rotateToAngle();
+			this.world.removeBody(ship.getDrone());
 			droneAdded = !droneAdded;
 			droneRemoved = !droneRemoved;
 		}

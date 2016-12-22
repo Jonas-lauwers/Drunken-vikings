@@ -104,6 +104,7 @@ public class geowars extends simulationPanel {
 
 	private boolean droneAdded;
 	private boolean droneRemoved;
+        private EnemySpawner es;
         
 
 	private Random rand;
@@ -265,12 +266,8 @@ public class geowars extends simulationPanel {
 		droneAdded = true;
 		droneRemoved = false;
 
+		es = new EnemySpawner(5, new Vector2(50,50), 1, 1, 50);
 		enemyList = new ArrayList<>();
-		spawnerList = new ArrayList<>();
-		spawnerList.add(new EnemySpawner(1, 10, 10, "DRAGON"));
-		spawnerList.add(new EnemySpawner(1, 950, 10, "KING"));
-		
-		//this.world.addBody(new powerNoPal(new Vector2(300,300)));
 	}
 
 	/*
@@ -315,28 +312,18 @@ public class geowars extends simulationPanel {
 		}
 		ship.turnToAngle();
 
-		for (Enemy enemy : enemyList) {
-			if (!enemy.isDead()) {
-				enemy.move(ship.getWorldCenter());
-				if (rand.nextInt(100) == 5) {
-                                        if(enemy.getFireIsActive()) {
-                                            this.world.addBody(enemy.shoot());
-                                        }
-					Drone drone = ship.getDrone();
-					if (drone.canFire()) {
-						this.world.addBody(((Drone) ship.getDrone()).shoot());
-					}
-				}
-			}
-		}
-		for (EnemySpawner spawner : spawnerList) {
-			if (rand.nextInt(600) <= spawner.getSpeed()) {
-				Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos(), spawner.getType());
-				enemy.translate(10, 10);
-				enemyList.add(enemy);
-				this.world.addBody(enemy);
-			}
-		}
+		Enemy enemy = es.spawnEnemy();
+                if(enemy != null) {
+                    this.world.addBody(enemy);
+                    enemyList.add(enemy);
+                }
+                for(Enemy e : enemyList) {
+                    e.move(ship.getWorldCenter());
+                    if(!e.noFire && e.canShoot()) {
+                        this.world.addBody(e.shoot());
+                    }
+                }
+                
 		// stop simulation if player is dead.
 		if (ship.isDead()) {
 			this.stop();

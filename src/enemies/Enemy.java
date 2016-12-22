@@ -11,6 +11,7 @@ import gui.SimulationBody;
 import powers.PowerFactory;
 import powers.Power;
 import java.util.List;
+import java.util.Random;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -25,43 +26,27 @@ import org.dyn4j.geometry.Vector2;
  */
 public class Enemy extends SimulationBody {
 
+
     private double angle;
     private Vector2 direction;
-    private PowerFactory pf = new PowerFactory(100, 34);
+    protected PowerFactory pf;
+    protected boolean canShoot;
+    protected Random rand = new Random();
 
-    public Enemy(int shield, int damage, int xPos, int yPos, String imageLoc) {
-
+    public Enemy() {
         Convex shape = Geometry.createRectangle(30, 30);
-        //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE | POWERCOLLIDE));
-
         this.addFixture(fixture);
-
         this.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-
         this.setLinearDamping(1);
-
         this.translateToOrigin();
-
         this.setGravityScale(10);
-
         this.setAutoSleepingEnabled(false);
-
-        this.translate(xPos, yPos);
-
-        this.angle = 0;
-
         this.direction = new Vector2();
-
-        this.shield = shield;
-        this.damage = damage;
-        this.scorePoints = 10;
-        
+        this.angle = 0;
         //rotate body to allign with skin;
         this.rotate(Math.toRadians(90), this.getWorldCenter());
-        
-        this.skin = getImageSuppressExceptions(imageLoc);
     }
 
     public void move(Vector2 point) {
@@ -88,6 +73,13 @@ public class Enemy extends SimulationBody {
         this.rotate(this.angle - degree, this.getWorldCenter());
         this.angle = degree;
         this.direction = p;
+    }
+    
+    public boolean canShoot() {
+        if(99 <= rand.nextInt(100)) {
+            return canShoot;
+        }
+        return false;
     }
 
     public Bullet shoot() {

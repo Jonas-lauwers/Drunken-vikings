@@ -127,6 +127,7 @@ public class geowars extends simulationPanel {
 					Enemy e = (Enemy) b;
 					world.addBody(e.dropGem());
                                         addDroppedPowers(e.getPowers(e.getWorldCenter()));
+                                        enemyList.remove(e);
 					deadCount++;
 				}
 				experience += b.getExpPoints() * multiplier;

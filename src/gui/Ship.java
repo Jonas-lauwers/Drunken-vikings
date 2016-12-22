@@ -53,7 +53,7 @@ public class Ship extends SimulationBody {
         //set shield value(equal to life)
         this.shield = 20;
         //set the direction were facing to 0
-        this.direction = new Vector2();
+        this.direction = new Vector2(0,-1025);
         //set default damage of ship
         this.damage = 1;
         

@@ -5,8 +5,7 @@
  */
 package gui;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.List;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -23,13 +22,14 @@ public class Enemy extends SimulationBody {
 
     private double angle;
     private Vector2 direction;
+    private PowerFactory pf = new PowerFactory(100, 34);
 
     public Enemy(int shield, int damage, int xPos, int yPos, String imageLoc) {
 
         Convex shape = Geometry.createRectangle(30, 30);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
+        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE | POWERCOLLIDE));
 
         this.addFixture(fixture);
 
@@ -89,7 +89,24 @@ public class Enemy extends SimulationBody {
         return new Bullet(this.getWorldCenter(), direction, PLAYERCOLLIDE|DRONECOLLIDE, damage);
     }
 
+    // create and return gem to drop can only collide with player and player bullets
+    // when making this class override isHit(SimBody) so it does the super function 
+    // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
-        return new Gem(this.getWorldCenter(), 5, "wood");
+        Convex shape = Geometry.createCircle(10);
+        BodyFixture fixture = new BodyFixture(shape);
+        fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE | POWERCOLLIDE));
+        SimulationBody gem = new SimulationBody();
+        gem.addFixture(fixture);
+        gem.setMass(MassType.FIXED_LINEAR_VELOCITY);
+        gem.translateToOrigin();
+        gem.translate(this.getWorldCenter());
+        gem.expPoints = 5;
+        gem.skin = getImageSuppressExceptions("/assets/Collectibles_Droppables/Points/Diamond-1.png");
+        return gem;
+    }
+    
+    public List<Power> getPowers(Vector2 location) {
+        return pf.getPowers(location);
     }
 }

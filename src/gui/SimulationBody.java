@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 
 import org.dyn4j.dynamics.Body;
@@ -20,8 +22,6 @@ import org.dyn4j.geometry.*;
  * replaced by a full blown object that encapsulates all moving/living/shooting
  * objects.
  */
-// we should rename this one and refactor to our own use so it has all the basic
-// needs for our body classes that extend this. 
 public class SimulationBody extends Body {
 
     /**
@@ -29,6 +29,12 @@ public class SimulationBody extends Body {
      */
     protected Color color;
 
+    protected boolean hasSprite;
+    protected int numberOfSprites;
+    protected int spriteHeight;
+    protected int spriteWidth;
+    private int spritecounter;
+    private int currentSprite;
     /**
      * the filter categories to define what can collide with who *
      */
@@ -37,20 +43,18 @@ public class SimulationBody extends Body {
     public static final int BULLETCOLLIDE = 4;
     public static final int GEMCOLLIDE = 8;
     public static final int DRONECOLLIDE = 16;
-
-    private int spritecounter = 0;
-    private int currentSprite = 1;
-    protected boolean hasSprite = false;
-    protected int numberOfSprites = 0;
-    protected int spriteWidth = 0;
-    protected int spriteHeight = 0;
+    public static final int POWERCOLLIDE = 32;
 
     protected int shield = 0;
     protected int damage = 0;
     protected int expPoints = 0;
     protected int scorePoints = 0;
     protected BufferedImage skin = null;
-    protected String type;
+    protected Power power;
+    protected HashMap<String, Double> timerMap;
+    protected boolean droneIsActive;
+    protected boolean instantDeath;
+    protected boolean noFire;
 
     /**
      * Default constructor.
@@ -61,6 +65,7 @@ public class SimulationBody extends Body {
                 (float) Math.random() * 0.5f + 0.5f,
                 (float) Math.random() * 0.5f + 0.5f,
                 (float) Math.random() * 0.5f + 0.5f);
+        this.timerMap = new HashMap<>();
     }
 
     /**
@@ -75,6 +80,9 @@ public class SimulationBody extends Body {
     //added body param to get damage of the colliding body
     //if it's a gem or something else they still can get hit but with 0 damage
     public void isHit(SimulationBody b) {
+        if((b instanceof Ship || b instanceof Enemy) && instantDeath) {
+            shield = 1;
+        }
         shield -= b.getDamage();
     }
 
@@ -92,6 +100,58 @@ public class SimulationBody extends Body {
 
     public int getScorePoints() {
         return scorePoints;
+    }
+    
+    public void addPower(Power power) {
+        this.power = power;
+    }
+
+    public void decreaseTimers(double timePassed) {
+        for(String key: timerMap.keySet()) {
+            timerMap.put(key, timerMap.get(key) - timePassed);
+        }
+        checkTimers();
+    }
+    
+    public void checkTimers() {
+        Iterator it = timerMap.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            Double temp = timerMap.get(key);
+            if (temp <= 0) {
+                try {
+                    boolean reverse = SimulationBody.class.getDeclaredField(key).getBoolean(this);
+                    SimulationBody.class.getDeclaredField(key).setBoolean(this, !reverse);
+                it.remove();
+                }
+                catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    
+    public boolean getDroneIsActive() {
+        return droneIsActive;
+    }
+    
+    public boolean getFireIsActive() {
+        return !noFire;
+    }
+
+    public void deactivateDrone(double time) {
+        droneIsActive = false;
+        timerMap.put("droneIsActive", time);
+    }
+    
+    public void shieldDown(double time) {
+        instantDeath = true;
+        timerMap.put("instantDeath", time);
+    }
+    
+    public void disableFire(double time) {
+        noFire = true;
+        timerMap.put("noFire", time);
     }
 
     protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {

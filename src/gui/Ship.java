@@ -24,7 +24,8 @@ public class Ship extends SimulationBody {
     private double angle;       // holds the angle in which we are turned
     private Vector2 direction;  // holds the coordinate of the mouse
     private Drone drone;        //holds the drone your playing with
-
+    private double angleDirection;
+    
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
         Convex shape = Geometry.createRectangle(65, 45);
@@ -53,7 +54,7 @@ public class Ship extends SimulationBody {
         //set shield value(equal to life)
         this.shield = 20;
         //set the direction were facing to 0
-        this.direction = new Vector2();
+        this.direction = new Vector2(0,0);
         //set default damage of ship
         this.damage = 1;
         
@@ -103,6 +104,14 @@ public class Ship extends SimulationBody {
         this.direction = p;
         drone.turnToAngle(p);
     }
+    
+    public void turnToAngle(double degree) {
+    	System.out.println(direction);
+        this.direction.rotate(this.angle-degree, this.getWorldCenter());
+    	this.rotate(this.angle - degree, this.getWorldCenter());
+        this.angle = degree;
+        this.angleDirection = degree;
+    }
 
     /**
      * Rotate the body around it's center to the last given point.
@@ -117,7 +126,7 @@ public class Ship extends SimulationBody {
      * @return The bullet
      */
     public Bullet shoot() {
-        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
+        return new Bullet(this.getWorldCenter(), angleDirection, ENEMYCOLLIDE, damage);
     }
     
     public Drone getDrone() {

@@ -45,4 +45,28 @@ public class Bullet extends SimulationBody {
         this.damage = damage;
         this.skin = getImageSuppressExceptions(ARROW);
     }
+    
+    public Bullet(Vector2 location, double direction, long collideFilter, int damage) {
+        Convex shape = Geometry.createRectangle(20, 8);
+        BodyFixture fixture = new BodyFixture(shape);
+        fixture.setFilter(new CategoryFilter(BULLETCOLLIDE, collideFilter));
+        this.addFixture(fixture);
+        this.setMass(MassType.FIXED_ANGULAR_VELOCITY);
+        this.translateToOrigin();
+        this.setAngularDamping(100.0);
+        this.setBullet(true);
+        
+        //rotate body to allign with skin;
+        this.rotate(Math.toRadians(90), this.getWorldCenter());
+        
+        //double degree = (Math.atan2(location.y - direction.y, location.x - direction.x) - Math.PI / 2);
+        this.rotateAboutCenter(-direction);
+        double x = (15 * Math.cos(direction - Math.toRadians(90)));
+        double y = (-(15 * Math.sin(direction - Math.toRadians(90))));
+
+        this.translate(location.x + x, location.y + y);
+        this.setLinearVelocity(x * 7, y * 7);
+        this.damage = damage;
+        this.skin = getImageSuppressExceptions(ARROW);
+    }
 }

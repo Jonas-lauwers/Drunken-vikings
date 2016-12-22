@@ -5,6 +5,8 @@ import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
 
 import org.dyn4j.dynamics.Body;
@@ -43,6 +45,7 @@ public class SimulationBody extends Body {
     protected int scorePoints = 0;
     protected BufferedImage skin = null;
     protected Power power;
+    protected HashMap<String, Double> timerMap;
 
     /**
      * Default constructor.
@@ -53,6 +56,7 @@ public class SimulationBody extends Body {
                 (float) Math.random() * 0.5f + 0.5f,
                 (float) Math.random() * 0.5f + 0.5f,
                 (float) Math.random() * 0.5f + 0.5f);
+        this.timerMap = new HashMap<>();
     }
 
     /**
@@ -88,6 +92,31 @@ public class SimulationBody extends Body {
     
     public void addPower(Power power) {
         this.power = power;
+    }
+
+    public void decreaseTimers(double timePassed) {
+        for(String key: timerMap.keySet()) {
+            timerMap.put(key, timerMap.get(key) - timePassed);
+        }
+        checkTimers();
+    }
+    
+    public void checkTimers() {
+        Iterator it = timerMap.keySet().iterator();
+        while (it.hasNext()) {
+            String key = (String) it.next();
+            Double temp = timerMap.get(key);
+            if (temp <= 0) {
+                try {
+                    boolean reverse = this.getClass().getDeclaredField(key).getBoolean(this);
+                    this.getClass().getDeclaredField(key).setBoolean(this, !reverse);
+                it.remove();
+                }
+                catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {

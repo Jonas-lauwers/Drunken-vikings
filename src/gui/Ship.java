@@ -29,8 +29,7 @@ public class Ship extends SimulationBody {
     private Vector2 direction; // holds the coordinate of the mouse
     private Drone drone; // holds the drone your playing with
     private Power power;
-    private boolean droneIsActive;
-    private HashMap<String, Double> timerMap;
+    protected boolean droneIsActive;
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
@@ -68,7 +67,6 @@ public class Ship extends SimulationBody {
 
         this.droneIsActive = true;
 
-        this.timerMap = new HashMap<String, Double>();
 
         // rotate body to allign with skin;
         this.rotate(Math.toRadians(90), this.getWorldCenter());
@@ -139,28 +137,5 @@ public class Ship extends SimulationBody {
     public void deactivateDrone(double time) {
         droneIsActive = false;
         timerMap.put("droneIsActive", time);
-    }
-
-    public void decreaseTimers(double timePassed) {
-        for(String key: timerMap.keySet()) {
-            timerMap.put(key, timerMap.get(key) - timePassed);
-        }
-        checkTimers();
-    }
-    
-    public void checkTimers() {
-        Iterator it = timerMap.keySet().iterator();
-        while (it.hasNext()) {
-            String key = (String) it.next();
-            Double temp = timerMap.get(key);
-            if (temp <= 0) {
-                try {
-                    boolean reverse = Ship.class.getDeclaredField(key).getBoolean(this);
-                    Ship.class.getDeclaredField(key).setBoolean(this, !reverse);
-                    it.remove();
-                } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
-                }
-            }
-        }
     }
 }

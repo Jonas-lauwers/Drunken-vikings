@@ -31,9 +31,7 @@ public class PowerFactory {
         
         public boolean willDropPower(Power power) {
             int random = rand.nextInt(100);
-            System.out.println(random);
             if((random <= dropRate) && (random <= power.getDropRate())) {
-                System.out.println("drop");
                 return true;
             }
             return false;

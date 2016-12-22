@@ -5,6 +5,8 @@
  */
 package gui;
 
+import powers.PowerFactory;
+import powers.Power;
 import java.util.List;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;

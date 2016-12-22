@@ -1,4 +1,4 @@
-package gui;
+package powers;
 
 import java.util.ArrayList;
 import java.util.List;

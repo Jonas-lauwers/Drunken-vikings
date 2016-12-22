@@ -1,4 +1,6 @@
-package gui;
+package powers;
+
+import gui.SimulationBody;
 
 
 public class powerNoPal extends Power{

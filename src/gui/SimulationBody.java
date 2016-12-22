@@ -1,5 +1,6 @@
 package gui;
 
+import powers.Power;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.AffineTransform;
@@ -237,11 +238,11 @@ public class SimulationBody extends Body {
                                 (int) Math.ceil(w * scale),
                                 (int) Math.ceil(h * scale),
                                 null);
-                        g.drawRect((int) Math.ceil((c.x - w / 2.0) * scale),
-                                (int) Math.ceil((c.y - h / 2.0) * scale),
-                                (int) Math.ceil(w * scale),
-                                (int) Math.ceil(h * scale));
                     }
+                    g.drawRect((int) Math.ceil((c.x - w / 2.0) * scale),
+                            (int) Math.ceil((c.y - h / 2.0) * scale),
+                            (int) Math.ceil(w * scale),
+                            (int) Math.ceil(h * scale));
                 } else {
                     Graphics2DRenderer.render(g, convex, scale, this.color);
                 }

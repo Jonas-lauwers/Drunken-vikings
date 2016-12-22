@@ -1,5 +1,7 @@
-package gui;
+package powers;
 
+import gui.Ship;
+import gui.SimulationBody;
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;

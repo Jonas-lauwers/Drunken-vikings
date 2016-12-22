@@ -142,12 +142,17 @@ public class Ship extends SimulationBody {
     }
 
     public void decreaseTimers(double timePassed) {
+        for(String key: timerMap.keySet()) {
+            timerMap.put(key, timerMap.get(key) - timePassed);
+        }
+        checkTimers();
+    }
+    
+    public void checkTimers() {
         Iterator it = timerMap.keySet().iterator();
         while (it.hasNext()) {
             String key = (String) it.next();
             Double temp = timerMap.get(key);
-            temp -= timePassed;
-            timerMap.put(key, temp);
             if (temp <= 0) {
                 try {
                     boolean reverse = Ship.class.getDeclaredField(key).getBoolean(this);

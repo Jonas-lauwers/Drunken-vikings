@@ -1,5 +1,6 @@
 package gui;
 
+import enemies.Enemy;
 import powers.Power;
 import java.awt.Color;
 import java.awt.Graphics2D;

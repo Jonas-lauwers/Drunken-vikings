@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package gui;
+package enemies;
 
+import gui.Bullet;
+import gui.Gem;
+import gui.SimulationBody;
 import powers.PowerFactory;
 import powers.Power;
 import java.util.List;
@@ -95,17 +98,7 @@ public class Enemy extends SimulationBody {
     // when making this class override isHit(SimBody) so it does the super function 
     // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
-        Convex shape = Geometry.createCircle(10);
-        BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE | POWERCOLLIDE));
-        SimulationBody gem = new SimulationBody();
-        gem.addFixture(fixture);
-        gem.setMass(MassType.FIXED_LINEAR_VELOCITY);
-        gem.translateToOrigin();
-        gem.translate(this.getWorldCenter());
-        gem.expPoints = 5;
-        gem.skin = getImageSuppressExceptions("/assets/Collectibles_Droppables/Points/Diamond-1.png");
-        return gem;
+        return new Gem(this.getWorldCenter(), 5, "wood");
     }
     
     public List<Power> getPowers(Vector2 location) {

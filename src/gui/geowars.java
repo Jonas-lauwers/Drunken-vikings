@@ -24,6 +24,8 @@
  */
 package gui;
 
+import enemies.Enemy;
+import enemies.EnemySpawner;
 import powers.Power;
 import java.awt.Graphics2D;
 import java.awt.Point;

@@ -1,4 +1,4 @@
-package gui;
+package enemies;
 
 // why doesn't this create the enemies? this should be a factory class that 
 // creates and adds the enemies to the world, so it should have the world as 

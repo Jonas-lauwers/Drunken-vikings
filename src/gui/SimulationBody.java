@@ -29,6 +29,12 @@ public class SimulationBody extends Body {
      */
     protected Color color;
 
+    protected boolean hasSprite;
+    protected int numberOfSprites;
+    protected int spriteHeight;
+    protected int spriteWidth;
+    private int spritecounter;
+    private int currentSprite;
     /**
      * the filter categories to define what can collide with who *
      */
@@ -222,16 +228,20 @@ public class SimulationBody extends Body {
                     Vector2 c = r.getCenter();
                     double w = r.getWidth();
                     double h = r.getHeight();
-                    g.drawImage(skin,
-                            (int) Math.ceil((c.x - w / 2.0) * scale),
-                            (int) Math.ceil((c.y - h / 2.0) * scale),
-                            (int) Math.ceil(w * scale),
-                            (int) Math.ceil(h * scale),
-                            null);
-                    g.drawRect((int) Math.ceil((c.x - w / 2.0) * scale),
-                            (int) Math.ceil((c.y - h / 2.0) * scale),
-                            (int) Math.ceil(w * scale),
-                            (int) Math.ceil(h * scale));
+                    if (hasSprite) {
+                        drawSprite(g, c, r, scale);
+                    } else {
+                        g.drawImage(skin,
+                                (int) Math.ceil((c.x - w / 2.0) * scale),
+                                (int) Math.ceil((c.y - h / 2.0) * scale),
+                                (int) Math.ceil(w * scale),
+                                (int) Math.ceil(h * scale),
+                                null);
+                        g.drawRect((int) Math.ceil((c.x - w / 2.0) * scale),
+                                (int) Math.ceil((c.y - h / 2.0) * scale),
+                                (int) Math.ceil(w * scale),
+                                (int) Math.ceil(h * scale));
+                    }
                 } else {
                     Graphics2DRenderer.render(g, convex, scale, this.color);
                 }
@@ -254,6 +264,21 @@ public class SimulationBody extends Body {
             }
         } else {
             Graphics2DRenderer.render(g, convex, scale, this.color);
+        }
+    }
+    
+    protected void drawSprite(Graphics2D g, Vector2 c, Rectangle r, double scale) {
+        g.drawImage(skin, (int) Math.ceil((c.x - r.getWidth() / 2.0) * scale),
+                                (int) Math.ceil((c.y - r.getHeight() / 2.0) * scale),
+                                (int) Math.ceil(r.getWidth() / 2.0 * scale),
+                                (int) Math.ceil(r.getHeight() / 2.0 * scale),
+                                (currentSprite-1) * spriteWidth, 0, currentSprite * spriteWidth, spriteHeight, null);
+        if(spritecounter % 11 == 0) {
+            currentSprite++;
+        }
+        spritecounter++;
+        if(currentSprite >= numberOfSprites) {
+            currentSprite = 1;
         }
     }
 }

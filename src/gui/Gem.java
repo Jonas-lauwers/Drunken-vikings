@@ -26,7 +26,7 @@ public class Gem extends SimulationBody {
     public static final String GOLD = "/assets/Collectibles_Droppables/Points/Gold-1.png";
     public static final String PILE = "/assets/Collectibles_Droppables/Points/PileOfDiamond-1.png";
     public static final String WOOD = "/assets/Collectibles_Droppables/Points/Wood-1.png";
-    
+    private String type;
     
     public Gem(Vector2 location, int exp, String type) {
         Convex shape = Geometry.createCircle(10);

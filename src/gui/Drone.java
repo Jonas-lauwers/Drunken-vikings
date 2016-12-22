@@ -18,6 +18,9 @@ import org.dyn4j.geometry.Vector2;
  * @author Jonas Lauwers <jonas.lauwers AT gmail.org>
  */
 public class Drone extends SimulationBody {
+    
+    private static final String DRAGON = "/assets/Drones/Dragon-1.png";
+    private static final String DRAGONSPRITE = "/assets/Drones/DragonSprite-1.png";
 
     private Vector2 difference; //distance between ship and drone;
     private final Ship ship;    //holds the ship to use for getting realtime center
@@ -34,7 +37,7 @@ public class Drone extends SimulationBody {
     //long constructor, can be placed in setters instead and use defaults when not setting them.
     public Drone(Ship ship, Vector2 distance, int shield, int damage, long collides, boolean canFire) {
         // Create shape, fixture, body and add a collision filter to it
-        Convex shape = Geometry.createRectangle(10, 10);
+        Convex shape = Geometry.createRectangle(50, 50);
         BodyFixture fixture = new BodyFixture(shape);
         //THIS WILL DEPEND ON TYPE OF DRONE ... 
         //DEFENDER WILL COLLIDE WITH ENEMY AND BULLET, 
@@ -72,7 +75,13 @@ public class Drone extends SimulationBody {
 
         this.canFire = canFire;
         this.rotatesShip = true;
-        this.rotateSpeed = 0.05;
+        this.rotateSpeed = -0.02;
+        
+        this.skin = getImageSuppressExceptions(DRAGONSPRITE);
+        this.hasSprite = true;
+        this.numberOfSprites = 16;
+        this.spriteHeight = 128;
+        this.spriteWidth = 128;
     }
     
     /**

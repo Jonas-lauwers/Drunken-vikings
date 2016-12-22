@@ -5,11 +5,6 @@
  */
 package gui;
 
-import java.lang.reflect.Field;
-import java.text.DateFormat;
-import java.util.HashMap;
-import java.util.Iterator;
-
 import org.dyn4j.collision.CategoryFilter;
 import org.dyn4j.dynamics.BodyFixture;
 import org.dyn4j.geometry.Convex;
@@ -22,66 +17,66 @@ import org.dyn4j.geometry.Vector2;
  * @author Jonas Lauwers
  */
 public class Ship extends SimulationBody {
-
+    
     private static final String PLAYER = "/assets/Player/Player-1.png";
+    private static final String PLAYERSPRITE = "/assets/Player/Player-Sprite-277px.png";
 
-    private double angle; // holds the angle in which we are turned
-    private Vector2 direction; // holds the coordinate of the mouse
-    private Drone drone; // holds the drone your playing with
-    private Power power;
+    private double angle;       // holds the angle in which we are turned
+    private Vector2 direction;  // holds the coordinate of the mouse
+    private Drone drone;        //holds the drone your playing with
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
-        Convex shape = Geometry.createRectangle(30, 30);
-        // Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new
-        // Vector2(10, 10));
+        Convex shape = Geometry.createRectangle(65, 45);
+        //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE | POWERCOLLIDE));
+        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE));
 
-        // aad fixture to body
+        //aad fixture to body
         this.addFixture(fixture);
-        // set body to NOT rotate when hit
+        //set body to NOT rotate when hit
         this.setMass(MassType.FIXED_ANGULAR_VELOCITY);
-        // set body to slow down?(only for applyforce and impulse?)
+        //set body to slow down?(only for applyforce and impulse?)
         this.setLinearDamping(1);
-        // no clue at all
+        //no clue at all
         this.translateToOrigin();
-        // set impact of gravity ... there should not be gravity ... we're in
-        // space
+        //set impact of gravity ... there should not be gravity ... we're in space
         this.setGravityScale(10);
-        // set moving velocity to 0;
+        //set moving velocity to 0;
         this.setLinearVelocity(new Vector2(0, 0));
-        // never let this body sleep and stop doing collisiondetection
+        //never let this body sleep and stop doing collisiondetection
         this.setAutoSleepingEnabled(false);
-        // put player in a certain position on screen
+        //put player in a certain position on screen
         this.translate(512, 512);
-        // set start angle to 0
+        //set start angle to 0
         this.angle = 0;
-        // set shield value(equal to life)
+        //set shield value(equal to life)
         this.shield = 20;
-        // set the direction were facing to 0
+        //set the direction were facing to 0
         this.direction = new Vector2();
-        // set default damage of ship
+        //set default damage of ship
         this.damage = 1;
-
-        this.droneIsActive = true;
-
-
-        // rotate body to allign with skin;
+        
+        //rotate body to allign with skin;
         this.rotate(Math.toRadians(90), this.getWorldCenter());
-
-        // this drone can defend and pickup gems
-        // this.drone = new Drone(this, new Vector2(20,20), 500, 10,
-        // ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
+        
+        // creation of drones should go somewhere else, menu probably and given
+        //to the ship with a setter or in the constructor
+        
+        //this drone can defend and pickup gems
+        //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends
-        this.drone = new Drone(this, new Vector2(20, 20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
+        this.drone = new Drone(this, new Vector2(50,50), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
         // this drone only picks up gems
-        // this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE,
-        // false);
+        //this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE, false);
         // this drone only attacks
-        // this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
-
-        this.skin = getImageSuppressExceptions(PLAYER);
+        //this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
+        
+        this.skin = getImageSuppressExceptions(PLAYERSPRITE);
+        this.hasSprite = true;
+        this.numberOfSprites = 6;
+        this.spriteHeight = 100;
+        this.spriteWidth = 277;
     }
 
     /**
@@ -124,7 +119,7 @@ public class Ship extends SimulationBody {
     public Bullet shoot() {
         return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
     }
-
+    
     public Drone getDrone() {
         return drone;
     }

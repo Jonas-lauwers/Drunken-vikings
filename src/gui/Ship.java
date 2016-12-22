@@ -30,7 +30,7 @@ public class Ship extends SimulationBody {
         Convex shape = Geometry.createRectangle(65, 45);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE));
+        fixture.setFilter(new CategoryFilter(PLAYERCOLLIDE, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE | POWERCOLLIDE));
 
         //aad fixture to body
         this.addFixture(fixture);

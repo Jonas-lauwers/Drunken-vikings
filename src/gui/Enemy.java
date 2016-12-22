@@ -29,7 +29,7 @@ public class Enemy extends SimulationBody {
         Convex shape = Geometry.createRectangle(30, 30);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
         BodyFixture fixture = new BodyFixture(shape);
-        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
+        fixture.setFilter(new CategoryFilter(ENEMYCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE | POWERCOLLIDE));
 
         this.addFixture(fixture);
 

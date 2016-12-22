@@ -222,8 +222,8 @@ public class geowars extends simulationPanel {
 				moveDown = false;
 				break;
 			}
-		}
 	}
+		}
 
 	/**
 	 * Creates game objects and adds them to the world.
@@ -306,7 +306,7 @@ public class geowars extends simulationPanel {
 		if (moveDown) {
 			ship.move(0, 50);
 		}
-		if (firing && !ship.isDead()) {
+		if (firing && !ship.isDead() && ship.getFireIsActive()) {
 			this.world.addBody(ship.shoot());
 			firing = false;
 		}
@@ -316,7 +316,9 @@ public class geowars extends simulationPanel {
 			if (!enemy.isDead()) {
 				enemy.move(ship.getWorldCenter());
 				if (rand.nextInt(100) == 5) {
-					this.world.addBody(enemy.shoot());
+                                        if(enemy.getFireIsActive()) {
+                                            this.world.addBody(enemy.shoot());
+                                        }
 					Drone drone = ship.getDrone();
 					if (drone.canFire()) {
 						this.world.addBody(((Drone) ship.getDrone()).shoot());
@@ -326,7 +328,6 @@ public class geowars extends simulationPanel {
 		}
 		for (EnemySpawner spawner : spawnerList) {
 			if (rand.nextInt(600) <= spawner.getSpeed()) {
-				// less reading in an array :)
 				Enemy enemy = new Enemy(2, 1, spawner.getxPos(), spawner.getyPos(), spawner.getType());
 				enemy.translate(10, 10);
 				enemyList.add(enemy);

@@ -15,6 +15,8 @@ public class PowerFactory {
         public PowerFactory(int generalDropRate, int enemyDroprate) {
             this.dropRate = generalDropRate;
             powerList.add(new powerNoPal(enemyDroprate));
+            powerList.add(new powerNoShield(enemyDroprate));
+            powerList.add(new powerNoFire(enemyDroprate));
         }
         
         //add offset if more than one power returned

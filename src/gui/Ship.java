@@ -29,7 +29,6 @@ public class Ship extends SimulationBody {
     private Vector2 direction; // holds the coordinate of the mouse
     private Drone drone; // holds the drone your playing with
     private Power power;
-    protected boolean droneIsActive;
 
     public Ship() {
         // Create shape, fixture, body and add a collision filter to it
@@ -128,14 +127,5 @@ public class Ship extends SimulationBody {
 
     public Drone getDrone() {
         return drone;
-    }
-
-    public boolean getDroneIsActive() {
-        return droneIsActive;
-    }
-
-    public void deactivateDrone(double time) {
-        droneIsActive = false;
-        timerMap.put("droneIsActive", time);
     }
 }

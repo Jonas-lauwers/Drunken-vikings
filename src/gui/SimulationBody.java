@@ -46,6 +46,9 @@ public class SimulationBody extends Body {
     protected BufferedImage skin = null;
     protected Power power;
     protected HashMap<String, Double> timerMap;
+    protected boolean droneIsActive;
+    protected boolean instantDeath;
+    protected boolean noFire;
 
     /**
      * Default constructor.
@@ -71,6 +74,9 @@ public class SimulationBody extends Body {
     //added body param to get damage of the colliding body
     //if it's a gem or something else they still can get hit but with 0 damage
     public void isHit(SimulationBody b) {
+        if((b instanceof Ship || b instanceof Enemy) && instantDeath) {
+            shield = 1;
+        }
         shield -= b.getDamage();
     }
 
@@ -108,8 +114,8 @@ public class SimulationBody extends Body {
             Double temp = timerMap.get(key);
             if (temp <= 0) {
                 try {
-                    boolean reverse = this.getClass().getDeclaredField(key).getBoolean(this);
-                    this.getClass().getDeclaredField(key).setBoolean(this, !reverse);
+                    boolean reverse = SimulationBody.class.getDeclaredField(key).getBoolean(this);
+                    SimulationBody.class.getDeclaredField(key).setBoolean(this, !reverse);
                 it.remove();
                 }
                 catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException e) {
@@ -117,6 +123,29 @@ public class SimulationBody extends Body {
                 }
             }
         }
+    }
+    
+    public boolean getDroneIsActive() {
+        return droneIsActive;
+    }
+    
+    public boolean getFireIsActive() {
+        return !noFire;
+    }
+
+    public void deactivateDrone(double time) {
+        droneIsActive = false;
+        timerMap.put("droneIsActive", time);
+    }
+    
+    public void shieldDown(double time) {
+        instantDeath = true;
+        timerMap.put("instantDeath", time);
+    }
+    
+    public void disableFire(double time) {
+        noFire = true;
+        timerMap.put("noFire", time);
     }
 
     protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {

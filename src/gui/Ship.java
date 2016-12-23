@@ -55,6 +55,7 @@ public class Ship extends SimulationBody {
         this.shield = 20;
         //set the direction were facing to 0
         this.direction = new Vector2(0,0);
+
         //set default damage of ship
         this.damage = 1;
         

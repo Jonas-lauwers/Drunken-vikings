@@ -28,6 +28,7 @@ public class EnemySpawner {
         this.enemies = enemies;
         this.enemyCount = 0;
         this.maxEnemies = maxEnemies;
+        this.difficulty = difficulty;
     }
     
     public Enemy spawnEnemy() {

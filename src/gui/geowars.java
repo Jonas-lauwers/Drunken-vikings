@@ -84,9 +84,11 @@ public class geowars extends simulationPanel {
 		// temp for testing enemy shooting
 		this.rand = new Random();
 	}
+	
+	Controller controller;
 
 	// temp vars for ship and enemy for testing
-	private Ship ship;
+	protected Ship ship;
 	private ArrayList<Enemy> enemyList;
 	private ArrayList<EnemySpawner> spawnerList;
 	private int experience = 0;
@@ -96,11 +98,11 @@ public class geowars extends simulationPanel {
 	private int deadCount = 0;
 
 	// privates for controlling player action
-	private boolean moveLeft;
-	private boolean moveRight;
-	private boolean moveUp;
-	private boolean moveDown;
-	private boolean firing;
+	protected boolean moveLeft;
+	protected boolean moveRight;
+	protected boolean moveUp;
+	protected boolean moveDown;
+	protected boolean firing;
 
 	private boolean droneAdded;
 	private boolean droneRemoved;
@@ -186,7 +188,7 @@ public class geowars extends simulationPanel {
 		@Override
 		public void mouseMoved(MouseEvent e) {
 			Point p = e.getPoint();
-			ship.turnToAngle(new Vector2(p.getX(), p.getY()));
+//			ship.turnToAngle(new Vector2(p.getX(), p.getY()));
 		}
 	}
 
@@ -234,6 +236,7 @@ public class geowars extends simulationPanel {
 	 * Creates game objects and adds them to the world.
 	 */
 	protected void initializeWorld() {
+		controller = new Controller(this,1);
 		// set gravity to none :) welcome to space.
 		this.world.setGravity(new Vector2(0, 0));
 		// the floor
@@ -311,7 +314,7 @@ public class geowars extends simulationPanel {
 			this.world.addBody(ship.shoot());
 			firing = false;
 		}
-		ship.turnToAngle();
+		//ship.turnToAngle();
 
 		Enemy enemy = es.spawnEnemy();
                 if(enemy != null) {

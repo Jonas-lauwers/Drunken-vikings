@@ -25,20 +25,24 @@ import javax.swing.JToggleButton;
  */
 public class MainMenu extends javax.swing.JPanel {
 
+    public static JFrame frame;
+
     public static void main(String[] args) {
-        JFrame temp = new JFrame();
-        temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        temp.add(new MainMenu());
-        temp.pack();
-        temp.setVisible(true); 
-        temp.setResizable(false);
+        MainMenu run = new MainMenu();
     }
-    
+
     /**
      * Creates new form mainmenu
      */
     public MainMenu() {
+        frame = new JFrame();
+        frame.setSize(1024, 768);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         initComponents();
+        frame.add(this);
+        frame.pack();
+        frame.setVisible(true);
+        frame.setResizable(false);
     }
 
     /**
@@ -539,7 +543,19 @@ public class MainMenu extends javax.swing.JPanel {
     }//GEN-LAST:event_jToggleButton12ActionPerformed
 
     private void jToggleButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton13ActionPerformed
-    	
+        jLayeredPane3.setVisible(false);
+        jLayeredPane1.setVisible(false);
+        frame.setVisible(false);
+        JFrame gameTemp = new JFrame("geowars");
+        gameTemp.setResizable(false);
+        gameTemp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        geowars simulation = new geowars();
+        gameTemp.add(simulation);
+        gameTemp.pack();
+        gameTemp.setVisible(true);
+        simulation.setFocusable(true);
+        simulation.setVisible(true);
+        simulation.run();
     }//GEN-LAST:event_jToggleButton13ActionPerformed
 
     private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed

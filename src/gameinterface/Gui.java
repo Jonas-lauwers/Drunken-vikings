@@ -5,6 +5,7 @@
  */
 package gameinterface;
 
+import gui.Controller;
 import gui.geowars;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -23,6 +24,9 @@ public class Gui extends JFrame {
     protected Menu info = new MainMenu(this);
     private JPanel container;
     private GamePanel game;
+    
+    private int score;
+    private int experience;
 
     public static void main(String[] args) {
         JFrame drunkenVikings = new Gui();
@@ -52,6 +56,8 @@ public class Gui extends JFrame {
         container.add(info, "info");
         container.add(store, "store");
         container.add(highScore, "highScore");
+        container.add(new PauseMenu(this), "pause");
+        container.add(new GameOverMenu(this), "gameover");
         container.add(new DifficultyMenu(this), "difficulty");
         
         game = new GamePanel(this);
@@ -70,6 +76,11 @@ public class Gui extends JFrame {
     
     public void startGame() {
         game.start();
+    }
+    
+    public void addScore(int experience, int score) {
+        this.score += score;
+        this.experience += experience;
     }
     
     public void setDifficulty(String type) {

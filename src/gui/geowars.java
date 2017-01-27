@@ -200,6 +200,9 @@ public class geowars extends simulationPanel {
 				case KeyEvent.VK_DOWN:
 					moveDown = true;
 					break;
+                                case KeyEvent.VK_ESCAPE:
+                                        pause();
+                                        parent.pause();
 				}
 			}
 
@@ -230,7 +233,7 @@ public class geowars extends simulationPanel {
 	 * Creates game objects and adds them to the world.
 	 */
 	protected void initializeWorld() {
-		controller = new Controller(this, 1);
+		controller = Controller.getInstance(this, 1);
 		// set gravity to none :) welcome to space.
 		this.world.setGravity(new Vector2(0, 0));
 		// the floor
@@ -334,7 +337,7 @@ public class geowars extends simulationPanel {
 		// stop simulation if player is dead.
 		if (ship.isDead()) {
 			this.stop();
-			System.out.format("Score: %d, experience: %d", score, experience);
+                        parent.stop();
 		}
 
 		//if (deadCount == 10) {
@@ -344,6 +347,7 @@ public class geowars extends simulationPanel {
 
                 parent.setScore(score);
                 parent.setMultiplier(multiplier);
+                parent.setExperience(experience);
 		super.update(g, elapsedTime);
 	}
 }

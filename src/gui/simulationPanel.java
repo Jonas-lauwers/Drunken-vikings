@@ -117,6 +117,10 @@ public abstract class simulationPanel extends Canvas {
         this.initializeWorld();
     }
     
+    public Dimension getPreferredSize() {
+        return new Dimension(1024, 700);
+    }
+    
     protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
         try {
             return ImageIO.read(SimulationBody.class.getResource(pathOnClasspath));
@@ -333,10 +337,10 @@ public abstract class simulationPanel extends Canvas {
      */
     public void run() {
         
+        this.setFocusable(true);
         this.requestFocus();
         // show it
         this.setVisible(true);
-        this.setFocusable(true);
         // start it
         this.start();
     }

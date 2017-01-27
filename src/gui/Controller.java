@@ -5,12 +5,12 @@ import org.dyn4j.geometry.Vector2;
 import ch.aplu.xboxcontroller.*;
 
 public class Controller {
+        private static Controller instance;
 	private XboxController xc;
 
-	public Controller(geowars geo, int player) {
+	private Controller(geowars geo, int player) {
 		xc = new XboxController(player);
 		if (!xc.isConnected()) {
-			System.out.println("NO CONTROLLER");
 			xc.release();
 			geo.usingController = false;
 			return;
@@ -22,7 +22,6 @@ public class Controller {
 			public void rightTrigger(double value) {
 				if(value == 1){
 				geo.firing = true;
-				System.out.println("FIRE");
 				}
 			}
 			public void leftThumbDirection(double value){
@@ -59,4 +58,11 @@ public class Controller {
 			}
 		});
 	}
+        
+        public static Controller getInstance(geowars geowars, int player) {
+            if( instance == null) {
+                instance =  new Controller(geowars, player);
+            }
+            return instance;
+        }
 }

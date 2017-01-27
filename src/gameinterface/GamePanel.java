@@ -21,10 +21,10 @@ public class GamePanel extends Menu {
     public GamePanel(Gui frame) {
         super(frame);
         initComponents();
-        game = new geowars(this);
-        jInternalFrame1.setOpaque(false);
-        jInternalFrame1.setVisible(true);
-        jInternalFrame1.add(game);
+        this.game = new geowars(this);
+        jPanel1.add(this.game);
+        frame.pack();
+        frame.repaint();
     }
     
     public void setScore(int score) {
@@ -37,6 +37,12 @@ public class GamePanel extends Menu {
     
     public void start() {
         System.out.println("starting?");
+        jPanel1.setFocusable(true);
+        jPanel1.setVisible(true);
+        jPanel1.setEnabled(true);
+        game.setVisible(true);
+        game.setFocusable(true);
+        game.setEnabled(true);
         game.run();
     }
     
@@ -57,7 +63,7 @@ public class GamePanel extends Menu {
         multiplierLabel = new javax.swing.JLabel();
         scoreValue = new javax.swing.JLabel();
         multiplierValue = new javax.swing.JLabel();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
+        jPanel1 = new javax.swing.JPanel();
 
         setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
@@ -74,23 +80,20 @@ public class GamePanel extends Menu {
         multiplierValue.setFont(multiplierValue.getFont());
         multiplierValue.setText("1x");
 
-        jInternalFrame1.setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
-        jInternalFrame1.setDoubleBuffered(true);
-        jInternalFrame1.setMaximumSize(new java.awt.Dimension(1024, 700));
-        jInternalFrame1.setMinimumSize(new java.awt.Dimension(1024, 700));
-        jInternalFrame1.setNormalBounds(new java.awt.Rectangle(0, 0, 0, 0));
-        jInternalFrame1.setPreferredSize(new java.awt.Dimension(1024, 700));
-        jInternalFrame1.setVisible(true);
+        jPanel1.setMaximumSize(new java.awt.Dimension(1024, 700));
+        jPanel1.setMinimumSize(new java.awt.Dimension(1024, 700));
+        jPanel1.setOpaque(false);
+        jPanel1.setPreferredSize(new java.awt.Dimension(1024, 700));
 
-        javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-        jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-        jInternalFrame1Layout.setHorizontalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1008, Short.MAX_VALUE)
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1024, Short.MAX_VALUE)
         );
-        jInternalFrame1Layout.setVerticalGroup(
-            jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 664, Short.MAX_VALUE)
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 700, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -106,7 +109,7 @@ public class GamePanel extends Menu {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(multiplierValue, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -117,14 +120,14 @@ public class GamePanel extends Menu {
                     .addComponent(multiplierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(multiplierValue, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jInternalFrame1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JInternalFrame jInternalFrame1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel multiplierLabel;
     private javax.swing.JLabel multiplierValue;
     private javax.swing.JLabel scoreLabel;

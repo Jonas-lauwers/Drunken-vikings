@@ -111,6 +111,7 @@ public abstract class simulationPanel extends Canvas {
         this.setPreferredSize(size);
         this.setMinimumSize(size);
         this.setMaximumSize(size);
+        this.setLocation(0, 0);
 
         // setup the world
         this.initializeWorld();
@@ -335,7 +336,7 @@ public abstract class simulationPanel extends Canvas {
         this.requestFocus();
         // show it
         this.setVisible(true);
-
+        this.setFocusable(true);
         // start it
         this.start();
     }

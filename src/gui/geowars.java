@@ -26,6 +26,7 @@ package gui;
 
 import enemies.Enemy;
 import enemies.EnemySpawner;
+import gameinterface.GamePanel;
 import powers.Power;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -39,7 +40,6 @@ import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.swing.JFrame;
 import org.dyn4j.collision.manifold.Manifold;
 import org.dyn4j.collision.narrowphase.Penetration;
 import org.dyn4j.dynamics.Body;
@@ -51,8 +51,10 @@ import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
 public class geowars extends simulationPanel {
+    
+    private GamePanel parent;
 
-	public geowars() {
+	public geowars(GamePanel parent) {
 		// creates a simulation panel with a scale of 1
 		super(1);
 
@@ -63,10 +65,10 @@ public class geowars extends simulationPanel {
 		this.addMouseListener(mouse);
 		this.addMouseMotionListener((MouseMotionListener) mouse);
 		this.world.addListener(new CustomCollisionListener());
-		this.requestFocus();
 
 		// temp for testing enemy shooting
 		this.rand = new Random();
+                this.parent = parent;
 	}
 
 	Controller controller;
@@ -340,24 +342,8 @@ public class geowars extends simulationPanel {
 		//	ship.getDrone().setRotateSpeed(0.2);
 		//}
 
+                parent.setScore(score);
+                parent.setMultiplier(multiplier);
 		super.update(g, elapsedTime);
-	}
-
-	/**
-	 * Entry point for the example application.
-	 *
-	 * @param args
-	 *            command line arguments
-	 */
-	public static void main(String[] args) {
-		JFrame temp = new JFrame("geowars");
-		temp.setResizable(false);
-		temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		geowars simulation = new geowars();
-		temp.add(simulation);
-		temp.pack();
-		temp.setVisible(true);
-		simulation.setFocusable(true);
-		simulation.run();
 	}
 }

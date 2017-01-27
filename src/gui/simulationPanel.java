@@ -36,9 +36,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-
 import org.dyn4j.dynamics.World;
 
 /**
@@ -108,7 +105,7 @@ public abstract class simulationPanel extends Canvas {
         this.world = new World();
 
         // create the size of the window
-        Dimension size = new Dimension(1024, 768);
+        Dimension size = new Dimension(1024, 700);
 
         // create a canvas to paint to 
         this.setPreferredSize(size);
@@ -334,19 +331,8 @@ public abstract class simulationPanel extends Canvas {
      * Starts the simulation.
      */
     public void run() {
-        // set the look and feel to the system look and feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (UnsupportedLookAndFeelException e) {
-            e.printStackTrace();
-        }
-
+        
+        this.requestFocus();
         // show it
         this.setVisible(true);
 

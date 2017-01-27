@@ -25,8 +25,10 @@ public class Ship extends SimulationBody {
     private Vector2 direction;  // holds the coordinate of the mouse
     private Drone drone;        //holds the drone your playing with
     private double angleDirection;
+    private boolean usingController;
     
-    public Ship() {
+    public Ship(boolean usingController) {
+    	this.usingController = usingController;
         // Create shape, fixture, body and add a collision filter to it
         Convex shape = Geometry.createRectangle(65, 45);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
@@ -127,7 +129,12 @@ public class Ship extends SimulationBody {
      * @return The bullet
      */
     public Bullet shoot() {
+        if(!usingController){
+        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
+        }
+        else{
         return new Bullet(this.getWorldCenter(), angleDirection, ENEMYCOLLIDE, damage);
+        }
     }
     
     public Drone getDrone() {

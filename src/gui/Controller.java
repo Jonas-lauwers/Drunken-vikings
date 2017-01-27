@@ -12,8 +12,10 @@ public class Controller {
 		if (!xc.isConnected()) {
 			System.out.println("NO CONTROLLER");
 			xc.release();
+			geo.usingController = false;
 			return;
 		}
+		geo.usingController = true;
 		xc.setLeftThumbDeadZone(0.5);
 		xc.setRightThumbDeadZone(0.5);
 		xc.addXboxControllerListener(new XboxControllerAdapter() {

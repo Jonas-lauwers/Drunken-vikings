@@ -50,24 +50,8 @@ import org.dyn4j.geometry.Geometry;
 import org.dyn4j.geometry.MassType;
 import org.dyn4j.geometry.Vector2;
 
-/**
- * A simple scene of a circle that is controlled by the left and right arrow
- * keys that is moved by applying torques and forces.
- *
- * @author William Bittle
- * @since 3.2.1
- * @version 3.2.0
- */
 public class geowars extends simulationPanel {
 
-	/**
-	 * The serial version id
-	 */
-	private static final long serialVersionUID = -313391186714427055L;
-
-	/**
-	 * Default constructor for the canvas Creates the base of a game
-	 */
 	public geowars() {
 		// creates a simulation panel with a scale of 1
 		super(1);
@@ -84,7 +68,7 @@ public class geowars extends simulationPanel {
 		// temp for testing enemy shooting
 		this.rand = new Random();
 	}
-	
+
 	Controller controller;
 
 	// temp vars for ship and enemy for testing
@@ -97,29 +81,27 @@ public class geowars extends simulationPanel {
 
 	private int deadCount = 0;
 
-	// privates for controlling player action
 	protected boolean moveLeft;
 	protected boolean moveRight;
 	protected boolean moveUp;
 	protected boolean moveDown;
 	protected boolean firing;
+	protected boolean usingController;
 
 	private boolean droneAdded;
 	private boolean droneRemoved;
-        private EnemySpawner es;
-        
 
 	private Random rand;
 
 	private class CustomCollisionListener extends CollisionAdapter {
-            
-                private void addDroppedPowers(List<Power> powers) {
-                    for(Power p : powers) {
-                        if(!world.containsBody(p)){
-                            world.addBody(p);
-                        }
-                    }
-                }
+
+		private void addDroppedPowers(List<Power> powers) {
+			for (Power p : powers) {
+				if (!world.containsBody(p)) {
+					world.addBody(p);
+				}
+			}
+		}
 
 		private boolean checkDeadness(SimulationBody b) {
 			if (b.isDead() && !b.getMass().isInfinite()) {
@@ -128,8 +110,8 @@ public class geowars extends simulationPanel {
 				if (b instanceof Enemy) {
 					Enemy e = (Enemy) b;
 					world.addBody(e.dropGem());
-                                        addDroppedPowers(e.getPowers(e.getWorldCenter()));
-                                        enemyList.remove(e);
+					addDroppedPowers(e.getPowers(e.getWorldCenter()));
+					enemyList.remove(e);
 					deadCount++;
 				}
 				experience += b.getExpPoints() * multiplier;
@@ -156,19 +138,19 @@ public class geowars extends simulationPanel {
 
 		@Override
 		public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Penetration pntrtn) {
-			//System.out.println("penetration collision");
+			// System.out.println("penetration collision");
 			return true;
 		}
 
 		@Override
 		public boolean collision(Body body, BodyFixture bf, Body body1, BodyFixture bf1, Manifold mnfld) {
-			//System.out.println("manifold collision");
+			// System.out.println("manifold collision");
 			return true;
 		}
 
 		@Override
 		public boolean collision(ContactConstraint cc) {
-			//System.out.println("contactconstraint collision");
+			// System.out.println("contactconstraint collision");
 			return true;
 		}
 	}
@@ -177,18 +159,24 @@ public class geowars extends simulationPanel {
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			firing = true;
+			if (!usingController) {
+				firing = true;
+			}
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			firing = false;
+			if (!usingController) {
+				firing = false;
+			}
 		}
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			Point p = e.getPoint();
-//			ship.turnToAngle(new Vector2(p.getX(), p.getY()));
+			if (!usingController) {
+				Point p = e.getPoint();
+				ship.turnToAngle(new Vector2(p.getX(), p.getY()));
+			}
 		}
 	}
 
@@ -196,47 +184,51 @@ public class geowars extends simulationPanel {
 
 		@Override
 		public void keyPressed(KeyEvent e) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
-				moveLeft = true;
-				break;
-			case KeyEvent.VK_RIGHT:
-				moveRight = true;
-				break;
-			case KeyEvent.VK_UP:
-				moveUp = true;
-				break;
-			case KeyEvent.VK_DOWN:
-				moveDown = true;
-				break;
+			if (!usingController) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
+					moveLeft = true;
+					break;
+				case KeyEvent.VK_RIGHT:
+					moveRight = true;
+					break;
+				case KeyEvent.VK_UP:
+					moveUp = true;
+					break;
+				case KeyEvent.VK_DOWN:
+					moveDown = true;
+					break;
+				}
 			}
 
 		}
 
 		@Override
 		public void keyReleased(KeyEvent e) {
-			switch (e.getKeyCode()) {
-			case KeyEvent.VK_LEFT:
-				moveLeft = false;
-				break;
-			case KeyEvent.VK_RIGHT:
-				moveRight = false;
-				break;
-			case KeyEvent.VK_UP:
-				moveUp = false;
-				break;
-			case KeyEvent.VK_DOWN:
-				moveDown = false;
-				break;
+			if (!usingController) {
+				switch (e.getKeyCode()) {
+				case KeyEvent.VK_LEFT:
+					moveLeft = false;
+					break;
+				case KeyEvent.VK_RIGHT:
+					moveRight = false;
+					break;
+				case KeyEvent.VK_UP:
+					moveUp = false;
+					break;
+				case KeyEvent.VK_DOWN:
+					moveDown = false;
+					break;
+				}
 			}
-	}
 		}
+	}
 
 	/**
 	 * Creates game objects and adds them to the world.
 	 */
 	protected void initializeWorld() {
-		controller = new Controller(this,1);
+		controller = new Controller(this, 1);
 		// set gravity to none :) welcome to space.
 		this.world.setGravity(new Vector2(0, 0));
 		// the floor
@@ -264,14 +256,18 @@ public class geowars extends simulationPanel {
 		left.translate(0, 768 / 2);
 		this.world.addBody(left);
 
-		ship = new Ship();
+		ship = new Ship(usingController);
 		this.world.addBody(ship);
 		this.world.addBody(ship.getDrone());
 		droneAdded = true;
 		droneRemoved = false;
 
-		es = new EnemySpawner(5, new Vector2(50,50), 1, 1, 50);
 		enemyList = new ArrayList<>();
+		spawnerList = new ArrayList<>();
+		spawnerList.add(new EnemySpawner(3, new Vector2(50, 50), 1, 1, 50));
+		spawnerList.add(new EnemySpawner(3, new Vector2(1000, 50), 1, 1, 50));
+		spawnerList.add(new EnemySpawner(3, new Vector2(50, 750), 1, 1, 50));
+
 	}
 
 	/*
@@ -284,9 +280,9 @@ public class geowars extends simulationPanel {
 	protected void update(Graphics2D g, double elapsedTime) {
 		// do player action based on key/mouse input
 		if (ship.getDroneIsActive() && !droneAdded) {
-                        Drone temp = ship.getDrone();
+			Drone temp = ship.getDrone();
 			this.world.addBody(temp);
-                        temp.rotateToAngle();
+			temp.rotateToAngle();
 			droneAdded = !droneAdded;
 			droneRemoved = !droneRemoved;
 		}
@@ -295,7 +291,7 @@ public class geowars extends simulationPanel {
 			droneAdded = !droneAdded;
 			droneRemoved = !droneRemoved;
 		}
-		
+
 		ship.decreaseTimers(elapsedTime);
 
 		if (moveLeft) {
@@ -314,30 +310,35 @@ public class geowars extends simulationPanel {
 			this.world.addBody(ship.shoot());
 			firing = false;
 		}
-		//ship.turnToAngle();
+		if (!usingController) {
+			ship.turnToAngle();
+		}
 
-		Enemy enemy = es.spawnEnemy();
-                if(enemy != null) {
-                    this.world.addBody(enemy);
-                    enemyList.add(enemy);
-                }
-                for(Enemy e : enemyList) {
-                    e.move(ship.getWorldCenter());
-                    if(!e.noFire && e.canShoot()) {
-                        this.world.addBody(e.shoot());
-                    }
-                }
-                
+		for (EnemySpawner s : spawnerList) {
+			Enemy enemy = s.spawnEnemy();
+			if (enemy != null) {
+				this.world.addBody(enemy);
+				enemyList.add(enemy);
+			}
+		}
+
+		for (Enemy e : enemyList) {
+			e.move(ship.getWorldCenter());
+			if (!e.noFire && e.canShoot()) {
+				this.world.addBody(e.shoot());
+			}
+		}
+
 		// stop simulation if player is dead.
 		if (ship.isDead()) {
 			this.stop();
 			System.out.format("Score: %d, experience: %d", score, experience);
 		}
 
-		if (deadCount == 10) {
-			multiplier = 2;
-			ship.getDrone().setRotateSpeed(0.2);
-		}
+		//if (deadCount == 10) {
+		//	multiplier = 2;
+		//	ship.getDrone().setRotateSpeed(0.2);
+		//}
 
 		super.update(g, elapsedTime);
 	}

@@ -6,6 +6,8 @@
 package gameinterface;
 
 import gui.SimulationBody;
+import gui.geowars;
+
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -28,7 +30,7 @@ public class MainMenu extends javax.swing.JPanel {
         temp.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         temp.add(new MainMenu());
         temp.pack();
-        temp.setVisible(true);
+        temp.setVisible(true); 
         temp.setResizable(false);
     }
     
@@ -537,7 +539,7 @@ public class MainMenu extends javax.swing.JPanel {
     }//GEN-LAST:event_jToggleButton12ActionPerformed
 
     private void jToggleButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton13ActionPerformed
-        // TODO add your handling code here:
+    	
     }//GEN-LAST:event_jToggleButton13ActionPerformed
 
     private void jToggleButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton7ActionPerformed

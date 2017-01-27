@@ -55,14 +55,14 @@ public class Enemy extends SimulationBody {
         double impulsex = 0;
         double impulsey = 0;
         if (point.x > this.getWorldCenter().x) {
-            impulsex = 50;
+            impulsex = 500;
         } else if (point.x < this.getWorldCenter().x) {
-            impulsex = -50;
+            impulsex = -500;
         }
         if (point.y > this.getWorldCenter().y) {
-            impulsey = 50;
+            impulsey = 500;
         } else if (point.y < this.getWorldCenter().y) {
-            impulsey = -50;
+            impulsey = -500;
         }
         //apply direction
         this.applyImpulse(new Vector2(impulsex, impulsey), point);

@@ -50,18 +50,15 @@ public class GamePanel extends Menu {
         frame.switchMenu("pause");
     }
     
-    public void resetGame() {
-        jPanel1.remove(game);
-        this.game = new geowars(this);
-        jPanel1.add(game);
-    }
-    
     public void stop() {
         frame.addScore(score, multiplier);
         jPanel1.remove(game);
         game = new geowars(this);
         jPanel1.add(game);
         frame.switchMenu("gameover");
+        setScore(0);
+        setExperience(0);
+        setMultiplier(0);
     }
 
     public void start() {

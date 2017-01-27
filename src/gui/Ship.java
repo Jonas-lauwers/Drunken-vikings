@@ -129,7 +129,6 @@ public class Ship extends SimulationBody {
      */
     public Bullet shoot() {
         if (cruelFire) {
-            System.out.println("shooting with high speed");
             if (!usingController) {
                 return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage, bulletSpeed);
             } else {

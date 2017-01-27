@@ -17,7 +17,7 @@ import org.dyn4j.geometry.Vector2;
  * @author Jonas Lauwers
  */
 public class Ship extends SimulationBody {
-    
+
     private static final String PLAYER = "/assets/Player/Player-1.png";
     private static final String PLAYERSPRITE = "/assets/Player/Player-Sprite-277px.png";
 
@@ -26,9 +26,9 @@ public class Ship extends SimulationBody {
     private Drone drone;        //holds the drone your playing with
     private double angleDirection;
     private boolean usingController;
-    
+
     public Ship(boolean usingController) {
-    	this.usingController = usingController;
+        this.usingController = usingController;
         // Create shape, fixture, body and add a collision filter to it
         Convex shape = Geometry.createRectangle(65, 45);
         //Geometry.createTriangle(new Vector2(20, 10), new Vector2(15, 20), new Vector2(10, 10));
@@ -56,26 +56,25 @@ public class Ship extends SimulationBody {
         //set shield value(equal to life)
         this.shield = 20;
         //set the direction were facing to 0
-        this.direction = new Vector2(0,0);
+        this.direction = new Vector2(0, 0);
 
         //set default damage of ship
         this.damage = 1;
-        
+
         //rotate body to allign with skin;
         this.rotate(Math.toRadians(90), this.getWorldCenter());
-        
+
         // creation of drones should go somewhere else, menu probably and given
         //to the ship with a setter or in the constructor
-        
         //this drone can defend and pickup gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE | GEMCOLLIDE, false);
         // this drone only defends
-        this.drone = new Drone(this, new Vector2(50,50), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
+        this.drone = new Drone(this, new Vector2(50, 50), 500, 10, ENEMYCOLLIDE | BULLETCOLLIDE, false);
         // this drone only picks up gems
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, GEMCOLLIDE, false);
         // this drone only attacks
         //this.drone = new Drone(this, new Vector2(20,20), 500, 10, 0, true);
-        
+
         this.skin = getImageSuppressExceptions(PLAYERSPRITE);
         this.hasSprite = true;
         this.numberOfSprites = 6;
@@ -107,11 +106,11 @@ public class Ship extends SimulationBody {
         this.direction = p;
         drone.turnToAngle(p);
     }
-    
+
     public void turnToAngle(double degree) {
-    	System.out.println(direction);
-        this.direction.rotate(this.angle-degree, this.getWorldCenter());
-    	this.rotate(this.angle - degree, this.getWorldCenter());
+        System.out.println(direction);
+        this.direction.rotate(this.angle - degree, this.getWorldCenter());
+        this.rotate(this.angle - degree, this.getWorldCenter());
         this.angle = degree;
         this.angleDirection = degree;
     }
@@ -129,14 +128,22 @@ public class Ship extends SimulationBody {
      * @return The bullet
      */
     public Bullet shoot() {
-        if(!usingController){
-        return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
-        }
-        else{
-        return new Bullet(this.getWorldCenter(), angleDirection, ENEMYCOLLIDE, damage);
+        if (cruelFire) {
+            System.out.println("shooting with high speed");
+            if (!usingController) {
+                return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage, bulletSpeed);
+            } else {
+                return new Bullet(this.getWorldCenter(), angleDirection, ENEMYCOLLIDE, damage, bulletSpeed);
+            }
+        } else {
+            if (!usingController) {
+                return new Bullet(this.getWorldCenter(), direction, ENEMYCOLLIDE, damage);
+            } else {
+                return new Bullet(this.getWorldCenter(), angleDirection, ENEMYCOLLIDE, damage);
+            }
         }
     }
-    
+
     public Drone getDrone() {
         return drone;
     }

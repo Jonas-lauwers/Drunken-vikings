@@ -57,6 +57,8 @@ public class SimulationBody extends Body {
 	protected boolean droneIsActive = true;
 	protected boolean instantDeath;
 	protected boolean noFire;
+        protected boolean cruelFire;
+        protected int bulletSpeed = 7;
 
 	/**
 	 * Default constructor.
@@ -154,6 +156,12 @@ public class SimulationBody extends Body {
 		noFire = true;
 		timerMap.put("noFire", time);
 	}
+        
+        public void setBulletSpeed(int speed, double time) {
+            cruelFire = true;
+            this.bulletSpeed = speed;
+            timerMap.put("cruelFire", time);
+        }
 
 	protected BufferedImage getImageSuppressExceptions(String pathOnClasspath) {
 		try {

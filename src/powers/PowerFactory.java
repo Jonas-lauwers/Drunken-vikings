@@ -17,6 +17,7 @@ public class PowerFactory {
             powerList.add(new powerNoPal(enemyDroprate));
             powerList.add(new powerNoShield(enemyDroprate));
             powerList.add(new powerNoFire(enemyDroprate));
+            powerList.add(new PowerCruelFire(100));
         }
         
         //add offset if more than one power returned

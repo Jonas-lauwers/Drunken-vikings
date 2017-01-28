@@ -5,7 +5,6 @@
  */
 package gameinterface;
 
-import gui.Controller;
 import gui.geowars;
 import java.awt.CardLayout;
 import java.awt.Color;
@@ -22,17 +21,18 @@ public class Gui extends JFrame {
     protected Menu store = new MainMenu(this);
     protected Menu settings = new MainMenu(this);
     protected Menu info = new MainMenu(this);
-    private JPanel container;
-    private GamePanel game;
     
-    private int score;
-    private int experience;
+    private JPanel container;
+    private geowars game;
+    private Player player;
 
     public static void main(String[] args) {
         JFrame drunkenVikings = new Gui();
     }
 
     public Gui() {
+        this.player = new Player(1, "test");
+        this.game = new geowars();
         Init();
     }
 
@@ -59,9 +59,7 @@ public class Gui extends JFrame {
         container.add(new PauseMenu(this), "pause");
         container.add(new GameOverMenu(this), "gameover");
         container.add(new DifficultyMenu(this), "difficulty");
-        
-        game = new GamePanel(this);
-        container.add(game, "game");
+        container.add(new GamePanel(this, game), "game");
         container.setVisible(true);
         
         add(container);
@@ -73,18 +71,43 @@ public class Gui extends JFrame {
         CardLayout layout = (CardLayout) container.getLayout();
         layout.show(container, menu);
     }
-    
-    public void startGame() {
-        game.start();
+
+    public void start() {
+        game.setVisible(true);
+        game.setFocusable(true);
+        game.requestFocus();
+        if (game.isPaused()) {
+            game.resume();
+        } else {
+            game.run();
+        }
     }
     
-    public void addScore(int experience, int score) {
-        this.score += score;
-        this.experience += experience;
+    public void pause() {
+        game.setVisible(false);
+        switchMenu("pause");
     }
     
+    public void setFinishedScore(int score, int currency) {
+        player.setScore(score, game.getDifficulty());
+        player.setCurrency(currency);
+    }
+    
+    public void stop() {
+        game = new geowars();
+        game.setCurrency(player.getCurrency());
+    }
+
     public void setDifficulty(String type) {
         game.setDifficulty(type);
+    }
+
+    public boolean isPaused() {
+        return game.isPaused();
+    }
+    
+    public geowars getGame() {
+        return this.game;
     }
 
 }

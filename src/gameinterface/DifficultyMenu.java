@@ -253,24 +253,20 @@ public class DifficultyMenu extends Menu {
     }// </editor-fold>//GEN-END:initComponents
 
     private void easyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_easyButtonActionPerformed
-        // init game
-        //set difficulty
-        //switch frame
-        frame.startGame();
+        frame.setDifficulty("easy");
+        frame.start();
         frame.switchMenu("game");
     }//GEN-LAST:event_easyButtonActionPerformed
 
     private void mediumButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mediumButtonActionPerformed
-        // init game
-        //set difficulty
-        //switch frame
+        frame.setDifficulty("medium");
+        frame.start();
         frame.switchMenu("game");
     }//GEN-LAST:event_mediumButtonActionPerformed
 
     private void hardButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hardButtonActionPerformed
-        // init game
-        //set difficulty
-        //switch frame
+        frame.setDifficulty("hard");
+        frame.start();
         frame.switchMenu("game");
     }//GEN-LAST:event_hardButtonActionPerformed
 

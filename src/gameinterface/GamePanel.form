@@ -44,7 +44,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="expLabel" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="expValue" min="-2" pref="120" max="-2" attributes="0"/>
+                      <Component id="currencyValue" min="-2" pref="120" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel1" max="-2" attributes="0"/>
               </Group>
@@ -63,7 +63,7 @@
                       <Component id="multiplierValue" alignment="3" pref="35" max="32767" attributes="0"/>
                   </Group>
                   <Component id="expLabel" alignment="0" max="32767" attributes="0"/>
-                  <Component id="expValue" max="32767" attributes="0"/>
+                  <Component id="currencyValue" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
@@ -110,7 +110,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="expLabel">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Exp:"/>
+        <Property name="text" type="java.lang.String" value="Currency:"/>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel1">
@@ -132,7 +132,7 @@
         <Property name="rows" type="int" value="1"/>
       </Layout>
     </Container>
-    <Component class="javax.swing.JLabel" name="expValue">
+    <Component class="javax.swing.JLabel" name="currencyValue">
       <Properties>
         <Property name="text" type="java.lang.String" value="0"/>
       </Properties>

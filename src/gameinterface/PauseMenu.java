@@ -74,7 +74,7 @@ public class PauseMenu extends Menu {
 
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButtonActionPerformed
         frame.switchMenu("game");
-        frame.startGame();
+        frame.start();
     }//GEN-LAST:event_continueButtonActionPerformed
 
 

@@ -5,7 +5,6 @@
  */
 package gameinterface;
 
-import gui.Controller;
 import gui.geowars;
 
 /**
@@ -14,19 +13,18 @@ import gui.geowars;
  */
 public class GamePanel extends Menu {
 
-    private geowars game;
     private int score;
-    private int experience;
     private int multiplier;
+    private int currency;
 
     /**
      * Creates new form GamePanel
      */
-    public GamePanel(Gui frame) {
+    public GamePanel(Gui frame, geowars game) {
         super(frame);
         initComponents();
-        this.game = new geowars(this);
-        jPanel1.add(this.game);
+        game.setView(this);
+        jPanel1.add(game);
         this.setOpaque(true);
     }
 
@@ -40,44 +38,30 @@ public class GamePanel extends Menu {
         multiplierValue.setText(String.valueOf(multiplier) + "x");
     }
 
-    public void setExperience(int experience) {
-        this.experience = experience;
-        expValue.setText(String.valueOf(experience));
-    }
-
-    public void pause() {
-        game.setVisible(false);
-        frame.switchMenu("pause");
+    public void setCurrency(int currency) {
+        this.currency = currency;
+        currencyValue.setText(String.valueOf(currency));
     }
     
     public void stop() {
-        frame.addScore(score, multiplier);
-        jPanel1.remove(game);
-        game = new geowars(this);
-        jPanel1.add(game);
+        frame.setFinishedScore(score, currency);
         frame.switchMenu("gameover");
-        setScore(0);
-        setExperience(0);
-        setMultiplier(0);
+        jPanel1.remove(frame.getGame());
+        frame.stop();
+        resetGame();
     }
-
-    public void start() {
-        game.setVisible(true);
-        game.setFocusable(true);
-        game.requestFocus();
-        if (game.isPaused()) {
-            game.resume();
-        } else {
-            game.run();
-        }
+    
+    public void resetGame() {
+        this.score = 0;
+        this.multiplier = 1;
+        this.currency = 0;
+        geowars game = frame.getGame();
+        game.setView(this);
+        jPanel1.add(game);
     }
-
-    public void setDifficulty(String type) {
-        //nothing  yet to do :)
-    }
-
-    public boolean isPaused() {
-        return game.isPaused();
+    
+    public void pause() {
+        frame.pause();
     }
 
     /**
@@ -95,7 +79,7 @@ public class GamePanel extends Menu {
         multiplierValue = new javax.swing.JLabel();
         expLabel = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        expValue = new javax.swing.JLabel();
+        currencyValue = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(73, 144, 255));
         setMaximumSize(new java.awt.Dimension(1024, 768));
@@ -114,15 +98,15 @@ public class GamePanel extends Menu {
         multiplierValue.setFont(multiplierValue.getFont());
         multiplierValue.setText("1x");
 
-        expLabel.setText("Exp:");
+        expLabel.setText("Currency:");
 
         jPanel1.setMaximumSize(new java.awt.Dimension(1024, 700));
         jPanel1.setMinimumSize(new java.awt.Dimension(1024, 700));
         jPanel1.setOpaque(false);
         jPanel1.setPreferredSize(new java.awt.Dimension(1024, 700));
-        jPanel1.setLayout(new java.awt.GridLayout());
+        jPanel1.setLayout(new java.awt.GridLayout(1, 0));
 
-        expValue.setText("0");
+        currencyValue.setText("0");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -141,7 +125,7 @@ public class GamePanel extends Menu {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(expLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(expValue, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(currencyValue, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -155,7 +139,7 @@ public class GamePanel extends Menu {
                         .addComponent(multiplierLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(multiplierValue, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
                     .addComponent(expLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(expValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(currencyValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26))
@@ -164,8 +148,8 @@ public class GamePanel extends Menu {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel currencyValue;
     private javax.swing.JLabel expLabel;
-    private javax.swing.JLabel expValue;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel multiplierLabel;
     private javax.swing.JLabel multiplierValue;

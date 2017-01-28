@@ -52,9 +52,9 @@ import org.dyn4j.geometry.Vector2;
 
 public class geowars extends simulationPanel {
 
-    private GamePanel parent;
+    private GamePanel view;
 
-    public geowars(GamePanel parent) {
+    public geowars() {
         // creates a simulation panel with a scale of 1
         super(1);
 
@@ -68,16 +68,16 @@ public class geowars extends simulationPanel {
 
         // temp for testing enemy shooting
         this.rand = new Random();
-        this.parent = parent;
     }
 
     Controller controller;
 
     // temp vars for ship and enemy for testing
+    private String difficulty;
     protected Ship ship;
     private ArrayList<Enemy> enemyList;
     private ArrayList<EnemySpawner> spawnerList;
-    private int experience = 0;
+    private int currency = 0;
     private int score = 0;
     private int multiplier = 1;
 
@@ -116,7 +116,7 @@ public class geowars extends simulationPanel {
                     enemyList.remove(e);
                     deadCount++;
                 }
-                experience += b.getExpPoints() * multiplier;
+                currency += b.getExpPoints() * multiplier;
                 score += b.getScorePoints() * multiplier;
                 return false;
             }
@@ -202,7 +202,9 @@ public class geowars extends simulationPanel {
                         break;
                     case KeyEvent.VK_ESCAPE:
                         pause();
-                        parent.pause();
+                        if(view!= null) {
+                            view.pause();
+                        }
                 }
             }
 
@@ -227,6 +229,22 @@ public class geowars extends simulationPanel {
                 }
             }
         }
+    }
+    
+    public void setView(GamePanel view) {
+        this.view = view;
+    }
+    
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
+    }
+    
+    public String getDifficulty() {
+        return this.difficulty;
+    }
+    
+    public void setCurrency(int currency) {
+        this.currency = currency;
     }
 
     /**
@@ -333,17 +351,20 @@ public class geowars extends simulationPanel {
                 this.world.addBody(e.shoot());
             }
         }
+        if (view != null) {
+            view.setScore(score);
+            view.setMultiplier(multiplier);
+            view.setCurrency(currency);
+        }
+
+        super.update(g, elapsedTime);
 
         // stop simulation if player is dead.
-        if (!ship.isDead()) {
-            parent.setScore(score);
-            parent.setMultiplier(multiplier);
-            parent.setExperience(experience);
-            super.update(g, elapsedTime);
-        } else {
-
+        if (ship.isDead()) {
             this.stop();
-            parent.stop();
+            if (view != null) {
+                view.stop();
+            }
         }
 
         //if (deadCount == 10) {

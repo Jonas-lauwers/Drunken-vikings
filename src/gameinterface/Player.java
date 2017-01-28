@@ -21,6 +21,8 @@ public class Player {
     private int rank;
     private Map<String, Integer> score;
     private Ship ship;
+    private int lastScore;
+    private String lastDifficulty;
     
     //player creation should be based on local data or login information
     public Player(int id, String name) {
@@ -36,6 +38,7 @@ public class Player {
         //make setter in ship to set controller
         //ship should be loaded from db or localstorage and should be all ships
         this.ship = new Ship(false);
+        this.lastScore = 0;
     }
     
     public void setScore(int newScore, String difficulty) {
@@ -43,6 +46,7 @@ public class Player {
         if(currentScore < newScore) {
             score.put(difficulty.toLowerCase(), newScore);
         }
+        lastScore = newScore;
     }
     
     public void setCurrency(int currency) {
@@ -53,4 +57,19 @@ public class Player {
         return this.currency;
     }
     
+    public int getLastScore() {
+        return this.lastScore;
+    }
+    
+    public int getHighScore() {
+        return score.get(lastDifficulty.toLowerCase());
+    }
+    
+    public void setLastDifficulty(String difficulty) {
+        this.lastDifficulty = difficulty;
+    }
+    
+    public String getLastDifficulty() {
+        return lastDifficulty;
+    }
 }

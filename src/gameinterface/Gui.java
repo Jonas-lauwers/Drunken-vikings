@@ -25,7 +25,7 @@ public class Gui extends JFrame {
     private JPanel container;
     private geowars game;
     private Player player;
-
+    
     public static void main(String[] args) {
         JFrame drunkenVikings = new Gui();
     }
@@ -100,6 +100,7 @@ public class Gui extends JFrame {
 
     public void setDifficulty(String type) {
         game.setDifficulty(type);
+        player.setLastDifficulty(type);
     }
 
     public boolean isPaused() {
@@ -108,6 +109,22 @@ public class Gui extends JFrame {
     
     public geowars getGame() {
         return this.game;
+    }
+    
+    public int getLastScore() {
+        return player.getLastScore();
+    }
+    
+    public int getCurrency() {
+        return player.getCurrency();
+    }
+    
+    public String getDifficulty() {
+        return player.getLastDifficulty();
+    }
+    
+    public int getHighScore() {
+        return player.getHighScore();
     }
 
 }

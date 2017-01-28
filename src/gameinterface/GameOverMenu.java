@@ -5,6 +5,8 @@
  */
 package gameinterface;
 
+import java.awt.Color;
+
 /**
  *
  * @author Jonas Lauwers <jonas.lauwers AT gmail.org>
@@ -17,6 +19,7 @@ public class GameOverMenu extends Menu {
     public GameOverMenu(Gui frame) {
         super(frame);
         initComponents();
+        setForeground(Color.white);
     }
 
     /**
@@ -29,9 +32,28 @@ public class GameOverMenu extends Menu {
     private void initComponents() {
 
         mainMenuButton = new javax.swing.JButton();
+        logoLabel = new javax.swing.JLabel();
+        difficultyLabel = new javax.swing.JLabel();
+        highScoreLabel = new javax.swing.JLabel();
+        currentScoreLabel = new javax.swing.JLabel();
+        currencyLabel = new javax.swing.JLabel();
+        diffcultyValue = new javax.swing.JLabel();
+        highScoreValue = new javax.swing.JLabel();
+        currentScoreValue = new javax.swing.JLabel();
+        currencyValue = new javax.swing.JLabel();
 
         setMaximumSize(new java.awt.Dimension(1024, 768));
         setMinimumSize(new java.awt.Dimension(1024, 768));
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                formComponentShown(evt);
+            }
+        });
 
         mainMenuButton.setText("mainMenu");
         mainMenuButton.addActionListener(new java.awt.event.ActionListener() {
@@ -40,21 +62,91 @@ public class GameOverMenu extends Menu {
             }
         });
 
+        logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        logoLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/Mainframe/Logo-1.png"))); // NOI18N
+        logoLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        logoLabel.setMaximumSize(new java.awt.Dimension(350, 205));
+        logoLabel.setMinimumSize(new java.awt.Dimension(350, 205));
+        logoLabel.setPreferredSize(new java.awt.Dimension(350, 205));
+
+        difficultyLabel.setFont(difficultyLabel.getFont());
+        difficultyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        difficultyLabel.setText("Difficulty:");
+
+        highScoreLabel.setFont(highScoreLabel.getFont());
+        highScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        highScoreLabel.setText("HighScore:");
+
+        currentScoreLabel.setFont(currentScoreLabel.getFont());
+        currentScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currentScoreLabel.setText("Current Score:");
+
+        currencyLabel.setFont(currencyLabel.getFont());
+        currencyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currencyLabel.setText("Currency");
+
+        diffcultyValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        diffcultyValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        highScoreValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        highScoreValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        currentScoreValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currentScoreValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        currencyValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        currencyValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(461, 461, 461)
-                .addComponent(mainMenuButton)
-                .addContainerGap(472, Short.MAX_VALUE))
+                .addGap(311, 311, 311)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                        .addComponent(mainMenuButton)
+                        .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(currencyLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(highScoreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(difficultyLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(currentScoreLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(highScoreValue, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(diffcultyValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                    .addComponent(currencyValue, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(currentScoreValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(401, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(580, Short.MAX_VALUE)
+                .addGap(64, 64, 64)
+                .addComponent(logoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(difficultyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(diffcultyValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(highScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(highScoreValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(currentScoreLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currentScoreValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(currencyLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(currencyValue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
                 .addComponent(mainMenuButton)
-                .addGap(163, 163, 163))
+                .addContainerGap(320, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -62,8 +154,31 @@ public class GameOverMenu extends Menu {
         frame.switchMenu("main");
     }//GEN-LAST:event_mainMenuButtonActionPerformed
 
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+       currentScoreValue.setText(String.valueOf(frame.getLastScore()));
+       currencyValue.setText(String.valueOf(frame.getCurrency()));
+       diffcultyValue.setText(frame.getDifficulty());
+       highScoreValue.setText(String.valueOf(frame.getHighScore()));
+    }//GEN-LAST:event_formFocusGained
+
+    private void formComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_formComponentShown
+        currentScoreValue.setText(String.valueOf(frame.getLastScore()));
+       currencyValue.setText(String.valueOf(frame.getCurrency()));
+       diffcultyValue.setText(frame.getDifficulty());
+       highScoreValue.setText(String.valueOf(frame.getHighScore()));
+    }//GEN-LAST:event_formComponentShown
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel currencyLabel;
+    private javax.swing.JLabel currencyValue;
+    private javax.swing.JLabel currentScoreLabel;
+    private javax.swing.JLabel currentScoreValue;
+    private javax.swing.JLabel diffcultyValue;
+    private javax.swing.JLabel difficultyLabel;
+    private javax.swing.JLabel highScoreLabel;
+    private javax.swing.JLabel highScoreValue;
+    private javax.swing.JLabel logoLabel;
     private javax.swing.JButton mainMenuButton;
     // End of variables declaration//GEN-END:variables
 }

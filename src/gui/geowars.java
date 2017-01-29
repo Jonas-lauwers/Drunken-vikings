@@ -250,7 +250,8 @@ public class geowars extends simulationPanel {
      * Creates game objects and adds them to the world.
      */
     protected void initializeWorld() {
-        controller = Controller.getInstance(this, 1);
+        controller = Controller.getInstance(1);
+        controller.initController(this);
         // set gravity to none :) welcome to space.
         this.world.setGravity(new Vector2(0, 0));
         // the floor

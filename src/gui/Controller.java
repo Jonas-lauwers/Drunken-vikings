@@ -1,16 +1,21 @@
 package gui;
 
-import org.dyn4j.geometry.Vector2;
 
 import ch.aplu.xboxcontroller.*;
 
 public class Controller {
         private static Controller instance;
 	private XboxController xc;
+        private geowars geo;
 
-	private Controller(geowars geo, int player) {
+	private Controller(int player) {
 		xc = new XboxController(player);
-		if (!xc.isConnected()) {
+		
+	}
+        
+        public void initController(geowars geo) {
+            this.geo = geo;
+            if (!xc.isConnected()) {
 			xc.release();
 			geo.usingController = false;
 			return;
@@ -57,11 +62,11 @@ public class Controller {
 				geo.ship.turnToAngle(-Math.toRadians(value+180));
 			}
 		});
-	}
+        }
         
-        public static Controller getInstance(geowars geowars, int player) {
+        public static Controller getInstance(int player) {
             if( instance == null) {
-                instance =  new Controller(geowars, player);
+                instance =  new Controller(player);
             }
             return instance;
         }

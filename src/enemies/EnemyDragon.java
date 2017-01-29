@@ -22,7 +22,9 @@ public class EnemyDragon extends Enemy{
         this.translate(location);
         this.shield = shielding[difficulty];
         this.damage = 1 * difficulty;
-        this.scorePoints = 10;
+        this.scorePoints = 0;
+        this.gemDrop = "wood";
+        this.gemValue = 10;
         this.skin = getImageSuppressExceptions(DRAGON);
         this.pf = new PowerFactory(100, 34);
     }

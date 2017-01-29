@@ -21,7 +21,9 @@ public class EnemyKing extends Enemy {
         this.translate(location);
         this.shield = 5 * difficulty * level;
         this.damage = 3 * difficulty * level;
-        this.scorePoints = 10;
+        this.gemDrop = "gold";
+        this.gemValue = 50;
+        this.scorePoints = 0;
         this.skin = getImageSuppressExceptions(KING);
         
         this.pf = new PowerFactory(100, 34);

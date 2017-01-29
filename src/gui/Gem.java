@@ -28,7 +28,7 @@ public class Gem extends SimulationBody {
     public static final String WOOD = "/assets/Collectibles_Droppables/Points/Wood-1.png";
     private String type;
     
-    public Gem(Vector2 location, int exp, String type) {
+    public Gem(Vector2 location, int score, String type) {
         Convex shape = Geometry.createCircle(10);
         BodyFixture fixture = new BodyFixture(shape);
         fixture.setFilter(new CategoryFilter(GEMCOLLIDE, PLAYERCOLLIDE | BULLETCOLLIDE | DRONECOLLIDE));
@@ -36,7 +36,7 @@ public class Gem extends SimulationBody {
         this.setMass(MassType.FIXED_LINEAR_VELOCITY);
         this.translateToOrigin();
         this.translate(location);
-        this.expPoints = exp;
+        this.scorePoints = score;
         try {
             this.type = (String) Gem.class.getDeclaredField(type.toUpperCase()).get(null);
         }
@@ -50,7 +50,7 @@ public class Gem extends SimulationBody {
     public void isHit(SimulationBody b) {
         super.isHit(b);
         if(b instanceof Bullet) {
-            this.expPoints = 0;
+           // this.scorePoints = 0;
         }
     }
 }

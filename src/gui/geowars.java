@@ -116,8 +116,7 @@ public class geowars extends simulationPanel {
                     enemyList.remove(e);
                     deadCount++;
                 }
-                currency += b.getExpPoints() * multiplier;
-                score += b.getScorePoints() * multiplier;
+                score += b.getScorePoints();
                 return false;
             }
             return true;
@@ -258,7 +257,7 @@ public class geowars extends simulationPanel {
         SimulationBody floor = new SimulationBody();
         floor.addFixture(Geometry.createRectangle(1024, 1));
         floor.setMass(MassType.INFINITE);
-        floor.translate(512, 767);
+        floor.translate(512, 700);
         this.world.addBody(floor);
 
         SimulationBody ceiling = new SimulationBody();
@@ -271,12 +270,12 @@ public class geowars extends simulationPanel {
         SimulationBody right = new SimulationBody();
         right.addFixture(Geometry.createRectangle(1, 768));
         right.setMass(MassType.INFINITE);
-        right.translate(1023, 768 / 2);
+        right.translate(1024, 700 / 2);
         this.world.addBody(right);
         SimulationBody left = new SimulationBody();
         left.addFixture(Geometry.createRectangle(1, 768));
         left.setMass(MassType.INFINITE);
-        left.translate(0, 768 / 2);
+        left.translate(0, 700 / 2);
         this.world.addBody(left);
 
         ship = new Ship(usingController);
@@ -289,7 +288,7 @@ public class geowars extends simulationPanel {
         spawnerList = new ArrayList<>();
         spawnerList.add(new EnemySpawner(3, new Vector2(50, 50), 1, 1, 50));
         spawnerList.add(new EnemySpawner(3, new Vector2(1000, 50), 1, 1, 50));
-        spawnerList.add(new EnemySpawner(3, new Vector2(50, 750), 1, 1, 50));
+        spawnerList.add(new EnemySpawner(3, new Vector2(50, 690), 1, 1, 50));
 
     }
 

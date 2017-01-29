@@ -49,7 +49,7 @@ public class SimulationBody extends Body {
 
 	protected int shield = 0;
 	protected int damage = 0;
-	protected int expPoints = 0;
+	protected int currencyPoints = 0;
 	protected int scorePoints = 0;
 	protected BufferedImage skin = null;
 	protected Power power;
@@ -97,8 +97,8 @@ public class SimulationBody extends Body {
 		return damage;
 	}
 
-	public int getExpPoints() {
-		return expPoints;
+	public int getCurrencyPoints() {
+		return currencyPoints;
 	}
 
 	public int getScorePoints() {

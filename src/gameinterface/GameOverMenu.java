@@ -69,31 +69,47 @@ public class GameOverMenu extends Menu {
         logoLabel.setMinimumSize(new java.awt.Dimension(350, 205));
         logoLabel.setPreferredSize(new java.awt.Dimension(350, 205));
 
+        difficultyLabel.setBackground(new java.awt.Color(255, 255, 255));
         difficultyLabel.setFont(difficultyLabel.getFont());
+        difficultyLabel.setForeground(new java.awt.Color(255, 255, 255));
         difficultyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         difficultyLabel.setText("Difficulty:");
 
+        highScoreLabel.setBackground(new java.awt.Color(255, 255, 255));
         highScoreLabel.setFont(highScoreLabel.getFont());
+        highScoreLabel.setForeground(new java.awt.Color(255, 255, 255));
         highScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         highScoreLabel.setText("HighScore:");
 
+        currentScoreLabel.setBackground(new java.awt.Color(255, 255, 255));
         currentScoreLabel.setFont(currentScoreLabel.getFont());
+        currentScoreLabel.setForeground(new java.awt.Color(255, 255, 255));
         currentScoreLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         currentScoreLabel.setText("Current Score:");
 
+        currencyLabel.setBackground(new java.awt.Color(255, 255, 255));
         currencyLabel.setFont(currencyLabel.getFont());
+        currencyLabel.setForeground(new java.awt.Color(255, 255, 255));
         currencyLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         currencyLabel.setText("Currency");
 
+        diffcultyValue.setBackground(new java.awt.Color(255, 255, 255));
+        diffcultyValue.setForeground(new java.awt.Color(255, 255, 255));
         diffcultyValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         diffcultyValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        highScoreValue.setBackground(new java.awt.Color(255, 255, 255));
+        highScoreValue.setForeground(new java.awt.Color(255, 255, 255));
         highScoreValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         highScoreValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        currentScoreValue.setBackground(new java.awt.Color(255, 255, 255));
+        currentScoreValue.setForeground(new java.awt.Color(255, 255, 255));
         currentScoreValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         currentScoreValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        currencyValue.setBackground(new java.awt.Color(255, 255, 255));
+        currencyValue.setForeground(new java.awt.Color(255, 255, 255));
         currencyValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         currencyValue.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

@@ -22,7 +22,9 @@ public class EnemyWarrior extends Enemy {
         this.translate(location);
         this.shield = shielding[difficulty];
         this.damage = 1 * difficulty;
-        this.scorePoints = 15;
+        this.gemDrop = "wood";
+        this.gemValue = 10;
+        this.scorePoints = 0;
         this.skin = getImageSuppressExceptions(WARRIOR);
         this.pf = new PowerFactory(100, 34);
         this.canShoot = true;

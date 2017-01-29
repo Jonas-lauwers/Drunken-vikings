@@ -32,6 +32,8 @@ public class Enemy extends SimulationBody {
     protected PowerFactory pf;
     protected boolean canShoot;
     protected Random rand = new Random();
+    protected String gemDrop;
+    protected int gemValue;
 
     public Enemy() {
         Convex shape = Geometry.createRectangle(30, 30);
@@ -90,7 +92,7 @@ public class Enemy extends SimulationBody {
     // when making this class override isHit(SimBody) so it does the super function 
     // and then checks if the body that hit with it is a bullet .. if so remove experience
     public SimulationBody dropGem() {
-        return new Gem(this.getWorldCenter(), 5, "wood");
+        return new Gem(this.getWorldCenter(), gemValue, gemDrop);
     }
     
     public List<Power> getPowers(Vector2 location) {

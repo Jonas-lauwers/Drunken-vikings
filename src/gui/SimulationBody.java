@@ -156,6 +156,14 @@ public class SimulationBody extends Body {
 		noFire = true;
 		timerMap.put("noFire", time);
 	}
+	
+	public void addShield(int amount) {
+		shield += amount;
+	}
+	
+	public void removeShield(int amount) {
+		shield -= amount;
+	}
         
         public void setBulletSpeed(int speed, double time) {
             cruelFire = true;
